@@ -1,0 +1,1292 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rangkuman Week 3 — PBO Java</title>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Sora:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+    <style>
+         :root {
+            --bg: #0a0e1a;
+            --surface: #111827;
+            --card: #161e2e;
+            --border: #1e2d45;
+            --accent: #00e5ff;
+            --accent2: #ff6b35;
+            --accent3: #a78bfa;
+            --accent4: #34d399;
+            --text: #e2e8f0;
+            --muted: #64748b;
+            --code-bg: #0d1117;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            background: var(--bg);
+            color: var(--text);
+            font-family: 'Sora', sans-serif;
+            font-size: 15px;
+            line-height: 1.7;
+            overflow-x: hidden;
+        }
+        /* ── Noise texture overlay ── */
+        
+        body::before {
+            content: '';
+            position: fixed;
+            inset: 0;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+            pointer-events: none;
+            z-index: 0;
+        }
+        /* ── Hero ── */
+        
+        .hero {
+            position: relative;
+            padding: 80px 40px 60px;
+            text-align: center;
+            overflow: hidden;
+        }
+        
+        .hero-glow {
+            position: absolute;
+            top: -100px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 700px;
+            height: 400px;
+            background: radial-gradient(ellipse at center, rgba(0, 229, 255, 0.12) 0%, transparent 70%);
+            pointer-events: none;
+        }
+        
+        .badge {
+            display: inline-block;
+            font-family: 'Space Mono', monospace;
+            font-size: 11px;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            color: var(--accent);
+            border: 1px solid rgba(0, 229, 255, 0.3);
+            padding: 6px 16px;
+            border-radius: 2px;
+            margin-bottom: 24px;
+            animation: fadeDown 0.6s ease both;
+        }
+        
+        .hero h1 {
+            font-size: clamp(2rem, 5vw, 3.6rem);
+            font-weight: 800;
+            line-height: 1.1;
+            letter-spacing: -1px;
+            animation: fadeDown 0.7s ease 0.1s both;
+        }
+        
+        .hero h1 span {
+            color: var(--accent);
+        }
+        
+        .hero-sub {
+            margin-top: 16px;
+            color: var(--muted);
+            font-size: 15px;
+            animation: fadeDown 0.7s ease 0.2s both;
+        }
+        /* ── TOC ── */
+        
+        .toc {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            justify-content: center;
+            margin: 40px auto 0;
+            max-width: 700px;
+            animation: fadeDown 0.7s ease 0.3s both;
+        }
+        
+        .toc a {
+            font-family: 'Space Mono', monospace;
+            font-size: 11px;
+            text-decoration: none;
+            color: var(--muted);
+            border: 1px solid var(--border);
+            padding: 6px 14px;
+            border-radius: 2px;
+            transition: all 0.2s;
+        }
+        
+        .toc a:hover {
+            color: var(--accent);
+            border-color: var(--accent);
+            background: rgba(0, 229, 255, 0.05);
+        }
+        /* ── Layout ── */
+        
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 0 24px 80px;
+            position: relative;
+            z-index: 1;
+        }
+        /* ── Section ── */
+        
+        .section {
+            margin-bottom: 64px;
+            opacity: 0;
+            transform: translateY(24px);
+            transition: opacity 0.5s ease, transform 0.5s ease;
+        }
+        
+        .section.visible {
+            opacity: 1;
+            transform: none;
+        }
+        
+        .section-header {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            margin-bottom: 28px;
+            padding-bottom: 16px;
+            border-bottom: 1px solid var(--border);
+        }
+        
+        .section-num {
+            font-family: 'Space Mono', monospace;
+            font-size: 11px;
+            color: var(--accent);
+            background: rgba(0, 229, 255, 0.08);
+            border: 1px solid rgba(0, 229, 255, 0.25);
+            padding: 4px 10px;
+            border-radius: 2px;
+            white-space: nowrap;
+        }
+        
+        .section-header h2 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            letter-spacing: -0.3px;
+        }
+        /* ── Cards grid ── */
+        
+        .grid-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+        }
+        
+        .grid-3 {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 16px;
+        }
+        /* Navigation Button */
+        
+        .page-navigation {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin: 50px 0;
+        }
+        
+        .nav-btn {
+            background: var(--card);
+            color: var(--accent);
+            border: 1px solid var(--accent);
+            padding: 12px 28px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-family: 'Space Mono', monospace;
+            transition: all 0.3s ease;
+        }
+        
+        .nav-btn:hover {
+            background: var(--accent);
+            color: #000;
+            transform: translateY(-2px);
+        }
+        
+        @media (max-width: 768px) {
+            .grid-2,
+            .grid-3 {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        .card {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 24px;
+            transition: border-color 0.2s, transform 0.2s;
+        }
+        
+        .card:hover {
+            border-color: rgba(0, 229, 255, 0.3);
+            transform: translateY(-2px);
+        }
+        
+        .card-title {
+            font-family: 'Space Mono', monospace;
+            font-size: 12px;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            flex-shrink: 0;
+        }
+        /* ── Table ── */
+        
+        .tbl-wrap {
+            overflow-x: auto;
+            border-radius: 8px;
+            border: 1px solid var(--border);
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 13.5px;
+        }
+        
+        thead {
+            background: rgba(0, 229, 255, 0.06);
+        }
+        
+        th {
+            font-family: 'Space Mono', monospace;
+            font-size: 11px;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            color: var(--accent);
+            padding: 12px 16px;
+            text-align: left;
+            border-bottom: 1px solid var(--border);
+        }
+        
+        td {
+            padding: 11px 16px;
+            border-bottom: 1px solid rgba(30, 45, 69, 0.7);
+            color: var(--text);
+        }
+        
+        tr:last-child td {
+            border-bottom: none;
+        }
+        
+        tr:hover td {
+            background: rgba(255, 255, 255, 0.02);
+        }
+        /* ── Code ── */
+        
+        pre {
+            background: var(--code-bg);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 20px;
+            overflow-x: auto;
+            font-family: 'Space Mono', monospace;
+            font-size: 12.5px;
+            line-height: 1.8;
+            color: #c9d1d9;
+        }
+        
+        .kw {
+            color: #ff7b72;
+        }
+        
+        .ty {
+            color: #79c0ff;
+        }
+        
+        .st {
+            color: #a5d6ff;
+        }
+        
+        .cm {
+            color: #8b949e;
+            font-style: italic;
+        }
+        
+        .nm {
+            color: #ffa657;
+        }
+        
+        .val {
+            color: #56d364;
+        }
+        
+        .fn {
+            color: #d2a8ff;
+        }
+        /* ── Tags / badges ── */
+        
+        .tag {
+            display: inline-block;
+            font-family: 'Space Mono', monospace;
+            font-size: 11px;
+            padding: 3px 10px;
+            border-radius: 3px;
+            margin: 3px 3px 3px 0;
+        }
+        
+        .tag-blue {
+            background: rgba(121, 192, 255, 0.12);
+            color: #79c0ff;
+            border: 1px solid rgba(121, 192, 255, 0.25);
+        }
+        
+        .tag-green {
+            background: rgba(52, 211, 153, 0.12);
+            color: #34d399;
+            border: 1px solid rgba(52, 211, 153, 0.25);
+        }
+        
+        .tag-orange {
+            background: rgba(255, 107, 53, 0.12);
+            color: #ff6b35;
+            border: 1px solid rgba(255, 107, 53, 0.25);
+        }
+        
+        .tag-purple {
+            background: rgba(167, 139, 250, 0.12);
+            color: #a78bfa;
+            border: 1px solid rgba(167, 139, 250, 0.25);
+        }
+        
+        .tag-cyan {
+            background: rgba(0, 229, 255, 0.10);
+            color: var(--accent);
+            border: 1px solid rgba(0, 229, 255, 0.25);
+        }
+        /* ── Info block ── */
+        
+        .info-block {
+            background: rgba(0, 229, 255, 0.05);
+            border-left: 3px solid var(--accent);
+            border-radius: 0 8px 8px 0;
+            padding: 16px 20px;
+            margin: 16px 0;
+            font-size: 14px;
+        }
+        
+        .warn-block {
+            background: rgba(255, 107, 53, 0.06);
+            border-left: 3px solid var(--accent2);
+            border-radius: 0 8px 8px 0;
+            padding: 16px 20px;
+            margin: 16px 0;
+            font-size: 14px;
+        }
+        /* ── Concept flow ── */
+        
+        .flow {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin: 16px 0;
+            font-family: 'Space Mono', monospace;
+            font-size: 12px;
+        }
+        
+        .flow-item {
+            background: var(--card);
+            border: 1px solid var(--border);
+            padding: 8px 14px;
+            border-radius: 4px;
+            color: var(--text);
+        }
+        
+        .flow-arrow {
+            color: var(--muted);
+            font-size: 18px;
+        }
+        /* ── Operator showcase ── */
+        
+        .op-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+            gap: 10px;
+        }
+        
+        .op-card {
+            background: var(--code-bg);
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            padding: 14px;
+            text-align: center;
+            transition: border-color 0.2s;
+        }
+        
+        .op-card:hover {
+            border-color: var(--accent3);
+        }
+        
+        .op-sym {
+            font-family: 'Space Mono', monospace;
+            font-size: 22px;
+            font-weight: 700;
+            display: block;
+            margin-bottom: 6px;
+        }
+        
+        .op-name {
+            font-size: 11px;
+            color: var(--muted);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        /* ── Divider ── */
+        
+        hr {
+            border: none;
+            border-top: 1px solid var(--border);
+            margin: 32px 0;
+        }
+        
+        p {
+            margin-bottom: 10px;
+            color: var(--text);
+        }
+        
+        strong {
+            color: white;
+        }
+        
+        ul {
+            list-style: none;
+            padding: 0;
+        }
+        
+        ul li {
+            padding: 5px 0 5px 20px;
+            position: relative;
+            color: var(--text);
+            font-size: 14px;
+        }
+        
+        ul li::before {
+            content: '▸';
+            position: absolute;
+            left: 0;
+            color: var(--accent);
+            font-size: 11px;
+            top: 7px;
+        }
+        /* ── Footer ── */
+        
+        footer {
+            text-align: center;
+            padding: 40px;
+            border-top: 1px solid var(--border);
+            font-family: 'Space Mono', monospace;
+            font-size: 11px;
+            color: var(--muted);
+            letter-spacing: 1px;
+        }
+        /* ── Animations ── */
+        
+        @keyframes fadeDown {
+            from {
+                opacity: 0;
+                transform: translateY(-16px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        /* ── Inline code ── */
+        
+        code {
+            font-family: 'Space Mono', monospace;
+            font-size: 12px;
+            background: var(--code-bg);
+            border: 1px solid var(--border);
+            padding: 2px 7px;
+            border-radius: 3px;
+            color: var(--accent);
+        }
+        /* Comparison table accent rows */
+        
+        .row-accent td:first-child {
+            color: var(--accent);
+            font-family: 'Space Mono', monospace;
+        }
+        
+        .back-top {
+            position: fixed;
+            /* tetap di layar walau di-scroll */
+            bottom: 28px;
+            /* jarak dari bawah */
+            right: 28px;
+            /* jarak dari kanan */
+            width: 42px;
+            height: 42px;
+            background: #5b8fff;
+            /* warna biru */
+            color: #fff;
+            border-radius: 50%;
+            /* bikin bulat */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            text-decoration: none;
+            box-shadow: 0 4px 20px rgba(91, 143, 255, 0.4);
+            /* glow effect */
+            transition: transform 0.2s;
+        }
+        
+        .back-top:hover {
+            transform: translateY(-3px);
+            /* naik sedikit saat di-hover */
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- ═══════════════ HERO ═══════════════ -->
+    <header class="hero">
+        <div class="hero-glow"></div>
+        <div class="badge">Pemrograman Berorientasi Objek · Week 3</div>
+        <h1>Rangkuman Materi<br><span>Dasar Java</span></h1>
+        <p class="hero-sub">Variable & Tipe Data · Struktur I/O · Operasi Dasar</p>
+        <nav class="toc">
+            <a href="#var">Variable & Tipe Data</a>
+            <a href="#io">Struktur I/O</a>
+            <a href="#ops">Operasi Dasar</a>
+        </nav>
+    </header>
+
+    <div class="container">
+
+        <!-- ═══════════════ 1. VARIABLE & TIPE DATA ═══════════════ -->
+        <section class="section" id="var">
+            <div class="section-header">
+                <span class="section-num">01</span>
+                <h2>Variable &amp; Tipe Data</h2>
+            </div>
+
+            <div class="grid-2" style="margin-bottom:16px">
+                <div class="card">
+                    <div class="card-title"><span class="dot" style="background:var(--accent)"></span>Apa itu Variable?</div>
+                    <p>Variable adalah <strong>tempat menyimpan data sementara</strong> yang bersifat <strong>dinamis</strong> — nilainya bisa diubah kapan saja sesuai kebutuhan.</p>
+                    <div class="info-block">
+                        💡 Analoginya seperti <strong>toples berlabel</strong>. Toples "Gula" hanya bisa diisi gula, toples "Garam" hanya garam. Label = <strong>Tipe Data</strong>, Toples = <strong>Variable</strong>.
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-title"><span class="dot" style="background:var(--accent2)"></span>Sintaks Deklarasi</div>
+                    <pre><span class="cm">// Format umum</span>
+<span class="ty">tipe_data</span> <span class="nm">namaVariabel</span> = nilai;
+
+<span class="cm">// Contoh</span>
+<span class="ty">int</span> <span class="nm">angka</span> = <span class="val">10</span>;
+<span class="ty">String</span> <span class="nm">nama</span> = <span class="st">"Java"</span>;
+<span class="ty">boolean</span> <span class="nm">aktif</span> = <span class="val">true</span>;</pre>
+                </div>
+            </div>
+
+            <!-- Variasi deklarasi -->
+            <div class="grid-3" style="margin-bottom:24px">
+                <div class="card">
+                    <div class="card-title" style="color:var(--accent4)"><span class="dot" style="background:var(--accent4)"></span>Tanpa Inisialisasi</div>
+                    <pre><span class="ty">int</span> <span class="nm">x</span>;
+<span class="nm">x</span> = <span class="val">100</span>; <span class="cm">// diisi nanti</span></pre>
+                </div>
+                <div class="card">
+                    <div class="card-title" style="color:var(--accent3)"><span class="dot" style="background:var(--accent3)"></span>Multiple Variable</div>
+                    <pre><span class="ty">int</span> <span class="nm">a</span>=<span class="val">5</span>, <span class="nm">b</span>=<span class="val">10</span>, <span class="nm">c</span>=<span class="val">15</span>;</pre>
+                </div>
+                <div class="card">
+                    <div class="card-title" style="color:var(--accent2)"><span class="dot" style="background:var(--accent2)"></span>Konstanta (final)</div>
+                    <pre><span class="kw">final</span> <span class="ty">double</span> <span class="nm">PI</span> = <span class="val">3.14159</span>;
+<span class="cm">// PI tidak bisa diubah!</span></pre>
+                </div>
+            </div>
+
+            <!-- Tipe Data -->
+            <div class="section-header" style="margin-top:40px">
+                <span class="section-num" style="color:var(--accent3);border-color:rgba(167,139,250,0.3);background:rgba(167,139,250,0.08)">1.1</span>
+                <h2 style="font-size:1.2rem">Tipe Data Primitif</h2>
+            </div>
+
+            <div class="warn-block">
+                ⚠️ <strong>Prinsip Utama:</strong> Data hanya bisa dioperasikan jika memiliki <strong>tipe data yang sama</strong>. Contoh: <code>4 apel + 3 jeruk</code> tidak bisa dijumlah secara langsung — sama seperti <code>int + String</code> akan
+                menghasilkan ERROR.
+            </div>
+
+            <div class="tbl-wrap">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Tipe Data</th>
+                            <th>Ukuran</th>
+                            <th>Rentang Nilai</th>
+                            <th>Contoh Penggunaan</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="row-accent">
+                            <td>byte</td>
+                            <td>1 byte</td>
+                            <td>-128 s/d 127</td>
+                            <td><code>byte umur = 25;</code></td>
+                        </tr>
+                        <tr class="row-accent">
+                            <td>short</td>
+                            <td>2 byte</td>
+                            <td>-32,768 s/d 32,767</td>
+                            <td><code>short tahun = 2024;</code></td>
+                        </tr>
+                        <tr class="row-accent">
+                            <td>int</td>
+                            <td>4 byte</td>
+                            <td>±2,147,483,647</td>
+                            <td><code>int jumlah = 100000;</code></td>
+                        </tr>
+                        <tr class="row-accent">
+                            <td>long</td>
+                            <td>8 byte</td>
+                            <td>±9.2 × 10¹⁸</td>
+                            <td><code>long pop = 7800000000L;</code></td>
+                        </tr>
+                        <tr class="row-accent">
+                            <td>float</td>
+                            <td>4 byte</td>
+                            <td>±3.4E-38</td>
+                            <td><code>float pi = 3.14f;</code></td>
+                        </tr>
+                        <tr class="row-accent">
+                            <td>double</td>
+                            <td>8 byte</td>
+                            <td>±1.7E-308</td>
+                            <td><code>double phi = 3.14159265;</code></td>
+                        </tr>
+                        <tr class="row-accent">
+                            <td>char</td>
+                            <td>2 byte</td>
+                            <td>0 s/d 65,535</td>
+                            <td><code>char huruf = 'A';</code></td>
+                        </tr>
+                        <tr class="row-accent">
+                            <td>boolean</td>
+                            <td>1 bit</td>
+                            <td>true / false</td>
+                            <td><code>boolean aktif = true;</code></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="section-header" style="margin-top:32px">
+                <span class="section-num" style="color:var(--accent3);border-color:rgba(167,139,250,0.3);background:rgba(167,139,250,0.08)">1.2</span>
+                <h2 style="font-size:1.2rem">Tipe Data Non-Primitif (Referensi)</h2>
+            </div>
+
+            <div class="card">
+                <p style="margin-bottom:12px">Berbentuk <strong>objek</strong>, memiliki method dan atribut. Dibuat oleh programmer atau berasal dari Java API.</p>
+                <div>
+                    <span class="tag tag-blue">String</span>
+                    <span class="tag tag-blue">Array</span>
+                    <span class="tag tag-blue">Class</span>
+                    <span class="tag tag-blue">Datetime</span>
+                    <span class="tag tag-green">List</span>
+                    <span class="tag tag-green">Set</span>
+                    <span class="tag tag-green">Map</span>
+                    <span class="tag tag-green">Queue</span>
+                    <span class="tag tag-purple">Integer</span>
+                    <span class="tag tag-purple">Character</span>
+                    <span class="tag tag-purple">Double</span>
+                </div>
+                <hr>
+                <pre><span class="ty">String</span> <span class="nm">nama</span> = <span class="st">"Java"</span>;
+<span class="fn">System.out.println</span>(<span class="nm">nama</span>.<span class="fn">length</span>());   <span class="cm">// 4</span>
+<span class="fn">System.out.println</span>(<span class="nm">nama</span>.<span class="fn">charAt</span>(<span class="val">0</span>)); <span class="cm">// J</span>
+
+<span class="ty">int</span>[] <span class="nm">angka</span> = {<span class="val">10</span>, <span class="val">20</span>, <span class="val">30</span>};
+<span class="fn">System.out.println</span>(<span class="nm">angka</span>[<span class="val">0</span>]);      <span class="cm">// 10</span></pre>
+            </div>
+        </section>
+
+        <!-- ═══════════════ 2. STRUKTUR I/O ═══════════════ -->
+        <section class="section" id="io">
+            <div class="section-header">
+                <span class="section-num">02</span>
+                <h2>Struktur I/O (Input / Output)</h2>
+            </div>
+
+            <p style="margin-bottom:24px">Java menyediakan beberapa cara untuk menangani operasi input dari pengguna dan output ke layar melalui paket <code>java.io</code>, <code>java.nio</code>, dan <code>java.util.Scanner</code>.</p>
+
+            <!-- OUTPUT -->
+            <div class="section-header" style="margin-top:8px">
+                <span class="section-num" style="color:var(--accent4);border-color:rgba(52,211,153,0.3);background:rgba(52,211,153,0.08)">2.1</span>
+                <h2 style="font-size:1.2rem">Output — System.out</h2>
+            </div>
+
+            <div class="grid-2" style="margin-bottom:16px">
+                <div class="card">
+                    <div class="card-title"><span class="dot" style="background:var(--accent4)"></span>Method Output</div>
+                    <ul>
+                        <li><code>print()</code> — Cetak <strong>tanpa</strong> pindah baris</li>
+                        <li><code>println()</code> — Cetak <strong>dengan</strong> pindah baris</li>
+                        <li><code>printf()</code> — Cetak dengan <strong>format string</strong></li>
+                    </ul>
+                    <hr>
+                    <p style="font-size:13px;color:var(--muted);margin-top:4px">Format String di <code>printf()</code>:</p>
+                    <div style="margin-top:8px">
+                        <span class="tag tag-cyan">%s → String</span>
+                        <span class="tag tag-cyan">%d → Integer</span>
+                        <span class="tag tag-cyan">%.2f → Float/Double</span>
+                        <span class="tag tag-cyan">\n → Newline</span>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-title"><span class="dot" style="background:var(--accent4)"></span>Contoh Kode</div>
+                    <pre><span class="ty">String</span> <span class="nm">nama</span> = <span class="st">"Java"</span>;
+<span class="ty">int</span> <span class="nm">umur</span> = <span class="val">25</span>;
+<span class="ty">double</span> <span class="nm">nilai</span> = <span class="val">95.567</span>;
+
+<span class="fn">System.out.print</span>(<span class="st">"Tanpa Enter "</span>);
+<span class="fn">System.out.println</span>(<span class="st">"- Dengan Enter"</span>);
+<span class="fn">System.out.printf</span>(
+  <span class="st">"Nama: %s, Umur: %d, Nilai: %.2f\n"</span>,
+  <span class="nm">nama</span>, <span class="nm">umur</span>, <span class="nm">nilai</span>
+);</pre>
+                </div>
+            </div>
+
+            <!-- INPUT SCANNER -->
+            <div class="section-header" style="margin-top:24px">
+                <span class="section-num" style="color:var(--accent4);border-color:rgba(52,211,153,0.3);background:rgba(52,211,153,0.08)">2.2</span>
+                <h2 style="font-size:1.2rem">Input — Scanner</h2>
+            </div>
+
+            <div class="grid-2" style="margin-bottom:16px">
+                <div class="card">
+                    <div class="card-title"><span class="dot" style="background:var(--accent2)"></span>Method Scanner</div>
+                    <div class="tbl-wrap" style="border:none">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Method</th>
+                                    <th>Membaca</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><code>nextInt()</code></td>
+                                    <td>Angka bulat (integer)</td>
+                                </tr>
+                                <tr>
+                                    <td><code>nextDouble()</code></td>
+                                    <td>Angka desimal</td>
+                                </tr>
+                                <tr>
+                                    <td><code>nextLine()</code></td>
+                                    <td>String lengkap (satu baris)</td>
+                                </tr>
+                                <tr>
+                                    <td><code>nextBoolean()</code></td>
+                                    <td>true / false</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-title"><span class="dot" style="background:var(--accent2)"></span>Contoh Kode</div>
+                    <pre><span class="kw">import</span> java.util.Scanner;
+
+<span class="ty">Scanner</span> <span class="nm">input</span> = <span class="kw">new</span> <span class="ty">Scanner</span>(System.in);
+
+<span class="fn">System.out.print</span>(<span class="st">"Masukkan nama: "</span>);
+<span class="ty">String</span> <span class="nm">nama</span> = <span class="nm">input</span>.<span class="fn">nextLine</span>();
+
+<span class="fn">System.out.print</span>(<span class="st">"Masukkan usia: "</span>);
+<span class="ty">int</span> <span class="nm">usia</span> = <span class="nm">input</span>.<span class="fn">nextInt</span>();
+
+<span class="nm">input</span>.<span class="fn">close</span>(); <span class="cm">// wajib ditutup!</span></pre>
+                </div>
+            </div>
+
+            <!-- BUFFEREDREADER & CONSOLE -->
+            <div class="section-header" style="margin-top:24px">
+                <span class="section-num" style="color:var(--accent4);border-color:rgba(52,211,153,0.3);background:rgba(52,211,153,0.08)">2.3</span>
+                <h2 style="font-size:1.2rem">BufferedReader &amp; System.console()</h2>
+            </div>
+
+            <div class="grid-2">
+                <div class="card">
+                    <div class="card-title"><span class="dot" style="background:var(--accent3)"></span>BufferedReader</div>
+                    <pre><span class="kw">import</span> java.io.BufferedReader;
+<span class="kw">import</span> java.io.InputStreamReader;
+
+<span class="ty">BufferedReader</span> <span class="nm">reader</span> = <span class="kw">new</span>
+  <span class="ty">BufferedReader</span>(
+    <span class="kw">new</span> <span class="ty">InputStreamReader</span>(System.in)
+  );
+
+<span class="ty">String</span> <span class="nm">nama</span> = <span class="nm">reader</span>.<span class="fn">readLine</span>();
+<span class="ty">int</span> <span class="nm">umur</span> = Integer.<span class="fn">parseInt</span>(
+  <span class="nm">reader</span>.<span class="fn">readLine</span>()
+);</pre>
+                    <hr>
+                    <p style="font-size:13px"><span style="color:var(--accent4)">✓</span> Lebih cepat dari Scanner<br>
+                        <span style="color:var(--accent4)">✓</span> Efisien untuk banyak data<br>
+                        <span style="color:var(--accent2)">✗</span> Perlu konversi tipe manual</p>
+                </div>
+                <div class="card">
+                    <div class="card-title"><span class="dot" style="background:var(--accent)"></span>System.console()</div>
+                    <pre><span class="ty">java.io.Console</span> <span class="nm">c</span> = System.<span class="fn">console</span>();
+<span class="kw">if</span> (<span class="nm">c</span> == <span class="kw">null</span>) {
+  <span class="fn">System.out.println</span>(<span class="st">"N/A"</span>);
+  <span class="kw">return</span>;
+}
+
+<span class="ty">String</span> <span class="nm">nama</span> = <span class="nm">c</span>.<span class="fn">readLine</span>(<span class="st">"Nama: "</span>);
+<span class="ty">char</span>[] <span class="nm">pass</span> = <span class="nm">c</span>.<span class="fn">readPassword</span>(
+  <span class="st">"Password: "</span>
+);</pre>
+                    <hr>
+                    <p style="font-size:13px"><span style="color:var(--accent4)">✓</span> Baca password (karakter tersembunyi)<br>
+                        <span style="color:var(--accent4)">✓</span> Lebih aman untuk input rahasia<br>
+                        <span style="color:var(--accent2)">✗</span> Tidak jalan di IDE (hanya CMD/terminal)</p>
+                </div>
+            </div>
+
+            <!-- Perbandingan -->
+            <div style="margin-top:20px" class="tbl-wrap">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Metode</th>
+                            <th>Kecepatan</th>
+                            <th>Tipe Return</th>
+                            <th>Cocok untuk</th>
+                            <th>Bisa di IDE?</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><code>Scanner</code></td>
+                            <td>Sedang</td>
+                            <td>Langsung sesuai tipe</td>
+                            <td>Pemula, input sederhana</td>
+                            <td>✓ Ya</td>
+                        </tr>
+                        <tr>
+                            <td><code>BufferedReader</code></td>
+                            <td>⚡ Cepat</td>
+                            <td>String (perlu konversi)</td>
+                            <td>Data banyak, performa tinggi</td>
+                            <td>✓ Ya</td>
+                        </tr>
+                        <tr>
+                            <td><code>System.console()</code></td>
+                            <td>Normal</td>
+                            <td>String / char[]</td>
+                            <td>Input password/rahasia</td>
+                            <td>✗ Tidak</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- ═══════════════ 3. OPERASI DASAR ═══════════════ -->
+        <section class="section" id="ops">
+            <div class="section-header">
+                <span class="section-num">03</span>
+                <h2>Operasi Dasar</h2>
+            </div>
+
+            <!-- 3.1 PENUGASAN -->
+            <div class="section-header" style="margin-top:8px">
+                <span class="section-num" style="color:var(--accent2);border-color:rgba(255,107,53,0.3);background:rgba(255,107,53,0.08)">3.1</span>
+                <h2 style="font-size:1.2rem">Operasi Penugasan</h2>
+            </div>
+
+            <p style="margin-bottom:16px">Digunakan untuk <strong>memberikan nilai</strong> ke variable. Operator dasar: <code>=</code></p>
+
+            <div class="grid-2" style="margin-bottom:24px">
+                <div class="card">
+                    <div class="card-title"><span class="dot" style="background:var(--accent2)"></span>Integer &amp; Double</div>
+                    <pre><span class="ty">int</span> <span class="nm">a</span> = <span class="val">10</span>;
+<span class="nm">a</span> += <span class="val">5</span>;  <span class="cm">// a = a + 5  → 15</span>
+<span class="nm">a</span> -= <span class="val">2</span>;  <span class="cm">// a = a - 2  → 13</span>
+<span class="nm">a</span> *= <span class="val">3</span>;  <span class="cm">// a = a * 3  → 39</span>
+<span class="nm">a</span> /= <span class="val">2</span>;  <span class="cm">// a = a / 2  → 19</span>
+<span class="nm">a</span> %= <span class="val">4</span>;  <span class="cm">// a = a % 4  → 3</span></pre>
+                </div>
+                <div class="card">
+                    <div class="card-title"><span class="dot" style="background:var(--accent3)"></span>String &amp; Boolean</div>
+                    <pre><span class="cm">// String</span>
+<span class="ty">String</span> <span class="nm">text</span> = <span class="st">"Hello"</span>;
+<span class="nm">text</span> += <span class="st">" World!"</span>;
+<span class="cm">// Output: Hello World!</span>
+
+<span class="cm">// Boolean</span>
+<span class="ty">boolean</span> <span class="nm">d</span> = <span class="val">true</span>;
+<span class="nm">d</span> = !<span class="nm">d</span>; <span class="cm">// Negasi → false</span></pre>
+                </div>
+            </div>
+
+            <!-- 3.2 ARITMATIKA -->
+            <div class="section-header">
+                <span class="section-num" style="color:var(--accent2);border-color:rgba(255,107,53,0.3);background:rgba(255,107,53,0.08)">3.2</span>
+                <h2 style="font-size:1.2rem">Operasi Aritmatika</h2>
+            </div>
+
+            <p style="margin-bottom:16px">Untuk perhitungan matematika dasar. Output bertipe <strong>Numeric</strong>.</p>
+
+            <div class="op-grid" style="margin-bottom:16px">
+                <div class="op-card"><span class="op-sym" style="color:var(--accent)">+</span><span class="op-name">Penjumlahan</span></div>
+                <div class="op-card"><span class="op-sym" style="color:var(--accent2)">-</span><span class="op-name">Pengurangan</span></div>
+                <div class="op-card"><span class="op-sym" style="color:var(--accent3)">*</span><span class="op-name">Perkalian</span></div>
+                <div class="op-card"><span class="op-sym" style="color:var(--accent4)">/</span><span class="op-name">Pembagian</span></div>
+                <div class="op-card"><span class="op-sym" style="color:var(--text)">%</span><span class="op-name">Modulus (sisa)</span></div>
+            </div>
+
+            <div class="grid-2" style="margin-bottom:24px">
+                <div class="card">
+                    <div class="card-title"><span class="dot" style="background:var(--accent)"></span>Contoh Dasar</div>
+                    <pre><span class="ty">int</span> <span class="nm">a</span> = <span class="val">10</span>, <span class="nm">b</span> = <span class="val">3</span>;
+<span class="fn">System.out.println</span>(<span class="nm">a</span> + <span class="nm">b</span>); <span class="cm">// 13</span>
+<span class="fn">System.out.println</span>(<span class="nm">a</span> - <span class="nm">b</span>); <span class="cm">// 7</span>
+<span class="fn">System.out.println</span>(<span class="nm">a</span> * <span class="nm">b</span>); <span class="cm">// 30</span>
+<span class="fn">System.out.println</span>(<span class="nm">a</span> / <span class="nm">b</span>); <span class="cm">// 3</span>
+<span class="fn">System.out.println</span>(<span class="nm">a</span> % <span class="nm">b</span>); <span class="cm">// 1</span></pre>
+                </div>
+                <div class="card">
+                    <div class="card-title"><span class="dot" style="background:var(--accent3)"></span>Library Math</div>
+                    <p style="font-size:13px;margin-bottom:10px">Untuk pangkat, akar, dll. gunakan class <code>Math</code>:</p>
+                    <pre><span class="ty">double</span> <span class="nm">hasil</span> = Math.<span class="fn">pow</span>(<span class="val">2</span>, <span class="val">3</span>);
+<span class="cm">// 2³ = 8.0</span>
+
+<span class="ty">double</span> <span class="nm">akar</span> = Math.<span class="fn">sqrt</span>(<span class="val">25</span>);
+<span class="cm">// √25 = 5.0</span></pre>
+                </div>
+            </div>
+
+            <!-- 3.3 PERBANDINGAN -->
+            <div class="section-header">
+                <span class="section-num" style="color:var(--accent2);border-color:rgba(255,107,53,0.3);background:rgba(255,107,53,0.08)">3.3</span>
+                <h2 style="font-size:1.2rem">Operasi Perbandingan</h2>
+            </div>
+
+            <p style="margin-bottom:16px">Membandingkan dua nilai. Output bertipe <strong>Boolean</strong>. Sering dipakai dalam kondisi <code>if-else</code>.</p>
+
+            <div class="grid-2" style="margin-bottom:24px">
+                <div class="tbl-wrap">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Operator</th>
+                                <th>Fungsi</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><code>==</code></td>
+                                <td>Sama dengan</td>
+                            </tr>
+                            <tr>
+                                <td><code>!=</code></td>
+                                <td>Tidak sama dengan</td>
+                            </tr>
+                            <tr>
+                                <td><code>&gt;</code></td>
+                                <td>Lebih besar</td>
+                            </tr>
+                            <tr>
+                                <td><code>&lt;</code></td>
+                                <td>Lebih kecil</td>
+                            </tr>
+                            <tr>
+                                <td><code>&gt;=</code></td>
+                                <td>Lebih besar atau sama dengan</td>
+                            </tr>
+                            <tr>
+                                <td><code>&lt;=</code></td>
+                                <td>Lebih kecil atau sama dengan</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="card">
+                    <div class="card-title"><span class="dot" style="background:var(--accent)"></span>Contoh dalam if-else</div>
+                    <pre><span class="ty">int</span> <span class="nm">angka</span> = <span class="val">10</span>;
+
+<span class="kw">if</span> (<span class="nm">angka</span> > <span class="val">10</span>) {
+  <span class="fn">System.out.println</span>(<span class="st">"Lebih besar"</span>);
+} <span class="kw">else if</span> (<span class="nm">angka</span> == <span class="val">10</span>) {
+  <span class="fn">System.out.println</span>(<span class="st">"Sama dengan 10"</span>);
+} <span class="kw">else</span> {
+  <span class="fn">System.out.println</span>(<span class="st">"Lebih kecil"</span>);
+}</pre>
+                </div>
+            </div>
+
+            <!-- 3.4 LOGIKA -->
+            <div class="section-header">
+                <span class="section-num" style="color:var(--accent2);border-color:rgba(255,107,53,0.3);background:rgba(255,107,53,0.08)">3.4</span>
+                <h2 style="font-size:1.2rem">Operasi Logika</h2>
+            </div>
+
+            <div class="grid-2" style="margin-bottom:24px">
+                <div class="tbl-wrap">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Operator</th>
+                                <th>Nama</th>
+                                <th>Fungsi</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><code>&amp;&amp;</code></td>
+                                <td>AND</td>
+                                <td>True jika <strong>kedua</strong> kondisi true</td>
+                            </tr>
+                            <tr>
+                                <td><code>||</code></td>
+                                <td>OR</td>
+                                <td>True jika <strong>salah satu</strong> kondisi true</td>
+                            </tr>
+                            <tr>
+                                <td><code>!</code></td>
+                                <td>NOT</td>
+                                <td>Membalik nilai boolean</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="card">
+                    <div class="card-title"><span class="dot" style="background:var(--accent3)"></span>Contoh Kode</div>
+                    <pre><span class="ty">boolean</span> <span class="nm">a</span> = <span class="val">true</span>, <span class="nm">b</span> = <span class="val">false</span>;
+
+<span class="fn">System.out.println</span>(<span class="nm">a</span> && <span class="nm">b</span>); <span class="cm">// false</span>
+<span class="fn">System.out.println</span>(<span class="nm">a</span> || <span class="nm">b</span>); <span class="cm">// true</span>
+<span class="fn">System.out.println</span>(!<span class="nm">a</span>);     <span class="cm">// false</span></pre>
+                </div>
+            </div>
+
+            <!-- 3.5 BITWISE -->
+            <div class="section-header">
+                <span class="section-num" style="color:var(--accent2);border-color:rgba(255,107,53,0.3);background:rgba(255,107,53,0.08)">3.5</span>
+                <h2 style="font-size:1.2rem">Operasi Bitwise</h2>
+            </div>
+
+            <p style="margin-bottom:16px">Memanipulasi bit secara langsung. Digunakan dalam optimasi performa, kriptografi, pengolahan gambar, dan <em>bit masking</em>.</p>
+
+            <div class="tbl-wrap" style="margin-bottom:24px">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Operator</th>
+                            <th>Nama</th>
+                            <th>Contoh</th>
+                            <th>Penjelasan</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><code>&</code></td>
+                            <td>AND</td>
+                            <td>a & b</td>
+                            <td>Bit sama-sama 1 → 1, lainnya 0</td>
+                        </tr>
+                        <tr>
+                            <td><code>|</code></td>
+                            <td>OR</td>
+                            <td>a | b</td>
+                            <td>Salah satu 1 → 1</td>
+                        </tr>
+                        <tr>
+                            <td><code>^</code></td>
+                            <td>XOR</td>
+                            <td>a ^ b</td>
+                            <td>Bit berbeda → 1, sama → 0</td>
+                        </tr>
+                        <tr>
+                            <td><code>~</code></td>
+                            <td>NOT</td>
+                            <td>~a</td>
+                            <td>Membalik semua bit</td>
+                        </tr>
+                        <tr>
+                            <td><code>&lt;&lt;</code></td>
+                            <td>Left Shift</td>
+                            <td>a &lt;&lt; n</td>
+                            <td>Geser kiri n bit (= a × 2ⁿ)</td>
+                        </tr>
+                        <tr>
+                            <td><code>&gt;&gt;</code></td>
+                            <td>Right Shift</td>
+                            <td>a &gt;&gt; n</td>
+                            <td>Geser kanan n bit (= a ÷ 2ⁿ)</td>
+                        </tr>
+                        <tr>
+                            <td><code>&gt;&gt;&gt;</code></td>
+                            <td>Unsigned Right Shift</td>
+                            <td>a &gt;&gt;&gt; n</td>
+                            <td>Geser kanan tanpa mempertahankan tanda</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- 3.6 STRING -->
+            <div class="section-header">
+                <span class="section-num" style="color:var(--accent2);border-color:rgba(255,107,53,0.3);background:rgba(255,107,53,0.08)">3.6</span>
+                <h2 style="font-size:1.2rem">Operasi String</h2>
+            </div>
+
+            <div class="card">
+                <p style="margin-bottom:12px">Penggabungan string (concatenation) bisa dilakukan dengan <code>+</code> atau method <code>.concat()</code>. Operasi lain (seperti <code>length()</code>, <code>charAt()</code>, dll.) akan dibahas di pertemuan lain.</p>
+                <pre><span class="ty">String</span> <span class="nm">a</span> = <span class="st">"Java"</span>;
+<span class="ty">String</span> <span class="nm">b</span> = <span class="st">"Programming"</span>;
+
+<span class="ty">String</span> <span class="nm">hasil1</span> = <span class="nm">a</span> + <span class="st">" "</span> + <span class="nm">b</span>;
+<span class="ty">String</span> <span class="nm">hasil2</span> = <span class="nm">a</span>.<span class="fn">concat</span>(<span class="st">" "</span>).<span class="fn">concat</span>(<span class="nm">b</span>);
+
+<span class="cm">// Keduanya menghasilkan: "Java Programming"</span></pre>
+            </div>
+        </section>
+
+        <!-- ═══════════════ RINGKASAN ═══════════════ -->
+        <section class="section">
+            <div class="section-header">
+                <span class="section-num" style="color:var(--accent4);border-color:rgba(52,211,153,0.3);background:rgba(52,211,153,0.08)">↗</span>
+                <h2>Hubungan Antar Konsep</h2>
+            </div>
+
+            <div class="info-block" style="margin-bottom:20px">
+                Semua konsep di Week 3 saling berkaitan membentuk alur dasar sebuah program Java.
+            </div>
+
+            <div class="flow">
+                <div class="flow-item">📥 Input<br><small style="color:var(--muted)">Scanner / BufferedReader</small></div>
+                <span class="flow-arrow">→</span>
+                <div class="flow-item">📦 Variable<br><small style="color:var(--muted)">int / String / boolean</small></div>
+                <span class="flow-arrow">→</span>
+                <div class="flow-item">⚙️ Operasi<br><small style="color:var(--muted)">Aritmatika / Logika</small></div>
+                <span class="flow-arrow">→</span>
+                <div class="flow-item">📤 Output<br><small style="color:var(--muted)">System.out.println</small></div>
+            </div>
+
+            <div class="card" style="margin-top:20px">
+                <div class="card-title"><span class="dot" style="background:var(--accent)"></span>Contoh Program Lengkap — Kalkulator Sederhana</div>
+                <pre><span class="kw">import</span> java.util.Scanner;
+
+<span class="kw">public class</span> <span class="ty">Kalkulator</span> {
+  <span class="kw">public static void</span> <span class="fn">main</span>(<span class="ty">String</span>[] args) {
+    <span class="ty">Scanner</span> <span class="nm">input</span> = <span class="kw">new</span> <span class="ty">Scanner</span>(System.in);
+
+    <span class="fn">System.out.print</span>(<span class="st">"Masukkan angka pertama: "</span>);
+    <span class="ty">double</span> <span class="nm">a</span> = <span class="nm">input</span>.<span class="fn">nextDouble</span>();
+
+    <span class="fn">System.out.print</span>(<span class="st">"Masukkan angka kedua: "</span>);
+    <span class="ty">double</span> <span class="nm">b</span> = <span class="nm">input</span>.<span class="fn">nextDouble</span>();
+
+    <span class="fn">System.out.print</span>(<span class="st">"Operator (+,-,*,/): "</span>);
+    <span class="ty">String</span> <span class="nm">op</span> = <span class="nm">input</span>.<span class="fn">next</span>();
+
+    <span class="ty">double</span> <span class="nm">hasil</span> = <span class="val">0</span>;
+    <span class="kw">if</span>     (<span class="nm">op</span>.<span class="fn">equals</span>(<span class="st">"+"</span>)) <span class="nm">hasil</span> = <span class="nm">a</span> + <span class="nm">b</span>;
+    <span class="kw">else if</span> (<span class="nm">op</span>.<span class="fn">equals</span>(<span class="st">"-"</span>)) <span class="nm">hasil</span> = <span class="nm">a</span> - <span class="nm">b</span>;
+    <span class="kw">else if</span> (<span class="nm">op</span>.<span class="fn">equals</span>(<span class="st">"*"</span>)) <span class="nm">hasil</span> = <span class="nm">a</span> * <span class="nm">b</span>;
+    <span class="kw">else if</span> (<span class="nm">op</span>.<span class="fn">equals</span>(<span class="st">"/"</span>)) <span class="nm">hasil</span> = <span class="nm">a</span> / <span class="nm">b</span>;
+
+    <span class="fn">System.out.printf</span>(<span class="st">"Hasil: %.1f %s %.1f = %.1f\n"</span>,
+      <span class="nm">a</span>, <span class="nm">op</span>, <span class="nm">b</span>, <span class="nm">hasil</span>);
+
+    <span class="nm">input</span>.<span class="fn">close</span>();
+  }
+}</pre>
+            </div>
+        </section>
+
+    </div>
+
+    <div class="page-navigation">
+        <button id="backBtn" class="nav-btn">← Kembali</button>
+        <button id="nextBtn" class="nav-btn">Selanjutnya →</button>
+    </div>
+    <a href="#" class="back-top">↑</a>
+
+    <footer>
+        &copy; 2024 · Pemrograman Berorientasi Objek · Week 3 · Rangkuman Materi Java
+    </footer>
+
+    <script>
+        // Intersection Observer for scroll animations
+        const sections = document.querySelectorAll('.section');
+        const obs = new IntersectionObserver((entries) => {
+            entries.forEach((e, i) => {
+                if (e.isIntersecting) {
+                    setTimeout(() => e.target.classList.add('visible'), i * 60);
+                }
+            });
+        }, {
+            threshold: 0.05
+        });
+
+        sections.forEach(s => obs.observe(s));
+
+        // Smooth scroll for TOC
+        document.querySelectorAll('.toc a').forEach(a => {
+            a.addEventListener('click', e => {
+                e.preventDefault();
+                const target = document.querySelector(a.getAttribute('href'));
+                if (target) target.scrollIntoView({
+                    behavior: 'smooth',
+                    block: 'start'
+                });
+            });
+        });
+
+        document.getElementById("backBtn").addEventListener("click", function() {
+            window.location.href = "tugas.html";
+        });
+
+        document.getElementById("nextBtn").addEventListener("click", function() {
+            window.location.href = "halaman3.html";
+        });
+        const backBtn = document.getElementById("backBtn");
+        const nextBtn = document.getElementById("nextBtn");
+
+        if (backBtn) {
+            backBtn.addEventListener("click", () => {
+                window.location.href = "tugas.html";
+            });
+        }
+
+        if (nextBtn) {
+            nextBtn.addEventListener("click", () => {
+                window.location.href = "halaman3.html";
+            });
+        }
+    </script>
+</body>
+
+</html>

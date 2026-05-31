@@ -1,0 +1,1129 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rangkuman PBO — Week 7, 8 & 9</title>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=DM+Sans:ital,wght@0,300;0,500;0,700;1,300&display=swap" rel="stylesheet">
+    <style>
+         :root {
+            --bg: #0d0f14;
+            --surface: #13161e;
+            --border: #1f2433;
+            --accent-blue: #4f8ef7;
+            --accent-cyan: #00d4aa;
+            --accent-orange: #f97316;
+            --accent-purple: #a78bfa;
+            --accent-pink: #f472b6;
+            --accent-yellow: #facc15;
+            --text: #e2e8f0;
+            --muted: #64748b;
+            --card-bg: #161b27;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            background: var(--bg);
+            color: var(--text);
+            font-family: 'DM Sans', sans-serif;
+            font-weight: 300;
+            line-height: 1.7;
+            min-height: 100vh;
+        }
+        
+        body::before {
+            content: '';
+            position: fixed;
+            inset: 0;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
+            pointer-events: none;
+            z-index: 0;
+        }
+        
+        .container {
+            max-width: 940px;
+            margin: 0 auto;
+            padding: 3rem 2rem 6rem;
+            position: relative;
+            z-index: 1;
+        }
+        
+        nav {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 3rem;
+            flex-wrap: wrap;
+        }
+        
+        .nav-btn {
+            font-family: 'Space Mono', monospace;
+            font-size: 0.65rem;
+            font-weight: 700;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            padding: 0.4rem 0.9rem;
+            border-radius: 4px;
+            border: 1px solid var(--border);
+            background: var(--card-bg);
+            color: var(--muted);
+            cursor: pointer;
+            transition: all 0.18s;
+        }
+        
+        .nav-btn:hover,
+        .nav-btn.active {
+            color: #fff;
+        }
+        
+        .nb-w7.active {
+            background: rgba(79, 142, 247, .15);
+            border-color: rgba(79, 142, 247, .4);
+            color: var(--accent-blue);
+        }
+        
+        .nb-w8.active {
+            background: rgba(0, 212, 170, .15);
+            border-color: rgba(0, 212, 170, .4);
+            color: var(--accent-cyan);
+        }
+        
+        .nb-w9.active {
+            background: rgba(249, 115, 22, .15);
+            border-color: rgba(249, 115, 22, .4);
+            color: var(--accent-orange);
+        }
+        
+        header {
+            border-bottom: 1px solid var(--border);
+            padding-bottom: 2.5rem;
+            margin-bottom: 3rem;
+        }
+        
+        .week-label {
+            font-family: 'Space Mono', monospace;
+            font-size: 0.7rem;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            color: var(--accent-cyan);
+            margin-bottom: 0.75rem;
+        }
+        
+        h1 {
+            font-family: 'Space Mono', monospace;
+            font-size: clamp(1.5rem, 3.5vw, 2.4rem);
+            font-weight: 700;
+            line-height: 1.2;
+            letter-spacing: -0.03em;
+            color: #fff;
+        }
+        
+        h1 span.hl {
+            color: var(--accent-blue);
+        }
+        
+        .subtitle {
+            margin-top: 0.75rem;
+            color: var(--muted);
+            font-size: 0.9rem;
+        }
+        
+        .week-page {
+            display: none;
+        }
+        
+        .week-page.visible {
+            display: block;
+        }
+        
+        .pillars {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 0.75rem;
+            margin-bottom: 3rem;
+        }
+        
+        .pillar {
+            padding: 1rem 0.75rem;
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            background: var(--card-bg);
+            text-align: center;
+            font-family: 'Space Mono', monospace;
+            font-size: 0.68rem;
+            font-weight: 700;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            transition: border-color 0.2s, transform 0.2s;
+            cursor: default;
+        }
+        
+        .pillar:hover {
+            transform: translateY(-3px);
+        }
+        
+        .p1 {
+            color: var(--accent-blue);
+            border-color: rgba(79, 142, 247, .25);
+        }
+        
+        .p2 {
+            color: var(--accent-cyan);
+            border-color: rgba(0, 212, 170, .25);
+        }
+        
+        .p3 {
+            color: var(--accent-orange);
+            border-color: rgba(249, 115, 22, .25);
+        }
+        
+        .p4 {
+            color: var(--accent-purple);
+            border-color: rgba(167, 139, 250, .25);
+        }
+        
+        .section {
+            margin-bottom: 2.5rem;
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            background: var(--card-bg);
+            overflow: hidden;
+        }
+        
+        .section-header {
+            padding: 1.1rem 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            border-bottom: 1px solid var(--border);
+        }
+        
+        .section-num {
+            font-family: 'Space Mono', monospace;
+            font-size: 0.62rem;
+            font-weight: 700;
+            letter-spacing: 0.15em;
+            color: var(--muted);
+        }
+        
+        .section-title {
+            font-family: 'Space Mono', monospace;
+            font-size: 0.95rem;
+            font-weight: 700;
+            letter-spacing: 0.05em;
+        }
+        
+        .dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            flex-shrink: 0;
+        }
+        
+        .sb .dot {
+            background: var(--accent-blue);
+        }
+        
+        .sb .section-title {
+            color: var(--accent-blue);
+        }
+        
+        .sc .dot {
+            background: var(--accent-cyan);
+        }
+        
+        .sc .section-title {
+            color: var(--accent-cyan);
+        }
+        
+        .so .dot {
+            background: var(--accent-orange);
+        }
+        
+        .so .section-title {
+            color: var(--accent-orange);
+        }
+        
+        .sp .dot {
+            background: var(--accent-purple);
+        }
+        
+        .sp .section-title {
+            color: var(--accent-purple);
+        }
+        
+        .sk .dot {
+            background: var(--accent-pink);
+        }
+        
+        .sk .section-title {
+            color: var(--accent-pink);
+        }
+        
+        .sy .dot {
+            background: var(--accent-yellow);
+        }
+        
+        .sy .section-title {
+            color: var(--accent-yellow);
+        }
+        
+        .section-body {
+            padding: 1.5rem;
+        }
+        
+        .def-box {
+            background: rgba(255, 255, 255, .03);
+            border-radius: 0 6px 6px 0;
+            padding: 0.9rem 1.2rem;
+            margin-bottom: 1.3rem;
+            font-size: 0.91rem;
+            border-left: 3px solid;
+        }
+        
+        .sb .def-box {
+            border-color: var(--accent-blue);
+        }
+        
+        .sc .def-box {
+            border-color: var(--accent-cyan);
+        }
+        
+        .so .def-box {
+            border-color: var(--accent-orange);
+        }
+        
+        .sp .def-box {
+            border-color: var(--accent-purple);
+        }
+        
+        .sk .def-box {
+            border-color: var(--accent-pink);
+        }
+        
+        .sy .def-box {
+            border-color: var(--accent-yellow);
+        }
+        
+        .sub-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+            margin-bottom: 1.2rem;
+        }
+        
+        .sub-card {
+            background: rgba(255, 255, 255, .025);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 1rem 1.1rem;
+        }
+        
+        .sub-card h4 {
+            font-family: 'Space Mono', monospace;
+            font-size: 0.68rem;
+            font-weight: 700;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            margin-bottom: 0.6rem;
+        }
+        
+        .sub-card ul {
+            list-style: none;
+            font-size: 0.87rem;
+            color: #94a3b8;
+        }
+        
+        .sub-card ul li {
+            margin-bottom: 0.25rem;
+        }
+        
+        .sub-card ul li::before {
+            content: '→ ';
+            color: var(--muted);
+        }
+        
+        .sub-card p {
+            font-size: 0.87rem;
+            color: #94a3b8;
+        }
+        
+        .am-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.83rem;
+            margin-top: 0.8rem;
+        }
+        
+        .am-table th {
+            font-family: 'Space Mono', monospace;
+            font-size: 0.62rem;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: var(--muted);
+            padding: 0.5rem 0.8rem;
+            text-align: center;
+            border-bottom: 1px solid var(--border);
+        }
+        
+        .am-table td {
+            padding: 0.5rem 0.8rem;
+            text-align: center;
+            border-bottom: 1px solid rgba(255, 255, 255, .04);
+            font-family: 'Space Mono', monospace;
+            font-size: 0.76rem;
+        }
+        
+        .am-table td:first-child {
+            text-align: left;
+            color: var(--accent-cyan);
+        }
+        
+        .yes {
+            color: #22c55e;
+        }
+        
+        .no {
+            color: #ef4444;
+        }
+        
+        .method-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
+        
+        .method-card {
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+        
+        .method-card-head {
+            padding: 0.65rem 1rem;
+            font-family: 'Space Mono', monospace;
+            font-size: 0.72rem;
+            font-weight: 700;
+            letter-spacing: 0.08em;
+        }
+        
+        .mc-override .method-card-head {
+            background: rgba(249, 115, 22, .12);
+            color: var(--accent-orange);
+        }
+        
+        .mc-overload .method-card-head {
+            background: rgba(167, 139, 250, .12);
+            color: var(--accent-purple);
+        }
+        
+        .method-card-body {
+            padding: 0.9rem 1rem;
+            font-size: 0.86rem;
+            color: #94a3b8;
+        }
+        
+        .method-card-body ul {
+            list-style: none;
+        }
+        
+        .method-card-body ul li {
+            margin-bottom: 0.28rem;
+        }
+        
+        .method-card-body ul li::before {
+            content: '• ';
+            color: var(--muted);
+        }
+        
+        .hier {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0;
+            margin: 1rem 0 1.3rem;
+        }
+        
+        .hier-node {
+            background: rgba(0, 212, 170, .08);
+            border: 1px solid rgba(0, 212, 170, .3);
+            color: var(--accent-cyan);
+            font-family: 'Space Mono', monospace;
+            font-size: 0.76rem;
+            font-weight: 700;
+            padding: 0.4rem 1.4rem;
+            border-radius: 4px;
+            letter-spacing: 0.1em;
+        }
+        
+        .hier-arrow {
+            color: var(--muted);
+            font-size: 1rem;
+            line-height: 1.4;
+        }
+        
+        .hier-row {
+            display: flex;
+            gap: 2rem;
+            align-items: center;
+        }
+        
+        .hier-row .hier-node {
+            background: rgba(79, 142, 247, .08);
+            border-color: rgba(79, 142, 247, .3);
+            color: var(--accent-blue);
+        }
+        
+        .tag {
+            display: inline-block;
+            font-family: 'Space Mono', monospace;
+            font-size: 0.63rem;
+            font-weight: 700;
+            letter-spacing: 0.1em;
+            padding: 0.2rem 0.5rem;
+            border-radius: 3px;
+            margin-right: 0.35rem;
+            margin-bottom: 0.3rem;
+        }
+        
+        .tag-blue {
+            background: rgba(79, 142, 247, .15);
+            color: var(--accent-blue);
+        }
+        
+        .tag-cyan {
+            background: rgba(0, 212, 170, .15);
+            color: var(--accent-cyan);
+        }
+        
+        .tag-orange {
+            background: rgba(249, 115, 22, .15);
+            color: var(--accent-orange);
+        }
+        
+        .tag-purple {
+            background: rgba(167, 139, 250, .15);
+            color: var(--accent-purple);
+        }
+        
+        .tag-pink {
+            background: rgba(244, 114, 182, .15);
+            color: var(--accent-pink);
+        }
+        
+        .tag-yellow {
+            background: rgba(250, 204, 21, .15);
+            color: var(--accent-yellow);
+        }
+        
+        .steps {
+            list-style: none;
+            counter-reset: step;
+        }
+        
+        .steps li {
+            counter-increment: step;
+            display: flex;
+            gap: 0.9rem;
+            align-items: flex-start;
+            font-size: 0.88rem;
+            color: #94a3b8;
+            margin-bottom: 0.7rem;
+        }
+        
+        .steps li::before {
+            content: counter(step);
+            font-family: 'Space Mono', monospace;
+            font-size: 0.65rem;
+            font-weight: 700;
+            background: rgba(255, 255, 255, .06);
+            border: 1px solid var(--border);
+            border-radius: 3px;
+            padding: 0.15rem 0.45rem;
+            flex-shrink: 0;
+            margin-top: 0.18rem;
+            color: var(--muted);
+        }
+        
+        .event-row {
+            display: flex;
+            gap: 0.75rem;
+            flex-wrap: wrap;
+            margin-bottom: 1.2rem;
+        }
+        
+        .event-pill {
+            background: rgba(250, 204, 21, .08);
+            border: 1px solid rgba(250, 204, 21, .25);
+            color: var(--accent-yellow);
+            font-family: 'Space Mono', monospace;
+            font-size: 0.65rem;
+            font-weight: 700;
+            padding: 0.3rem 0.7rem;
+            border-radius: 99px;
+            letter-spacing: 0.08em;
+        }
+        
+        code {
+            font-family: 'Space Mono', monospace;
+            font-size: 0.8em;
+            background: rgba(255, 255, 255, .07);
+            padding: 0.1rem 0.35rem;
+            border-radius: 3px;
+            color: #e2e8f0;
+        }
+        
+        .back-top {
+            position: fixed;
+            bottom: 28px;
+            right: 28px;
+            width: 42px;
+            height: 42px;
+            background: var(--accent-blue);
+            color: #fff;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            text-decoration: none;
+            box-shadow: 0 4px 20px rgba(79, 142, 247, 0.4);
+            transition: transform 0.2s;
+            z-index: 99;
+        }
+        
+        .back-top:hover {
+            transform: translateY(-3px);
+        }
+        
+        footer {
+            margin-top: 4rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid var(--border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-family: 'Space Mono', monospace;
+            font-size: 0.62rem;
+            color: var(--muted);
+            letter-spacing: 0.1em;
+        }
+        
+        @media (max-width: 620px) {
+            .pillars,
+            .sub-grid,
+            .method-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+            .am-table th,
+            .am-table td {
+                padding: 0.38rem 0.4rem;
+                font-size: 0.7rem;
+            }
+        }
+        
+        @media (max-width: 420px) {
+            .pillars {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            .sub-grid,
+            .method-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        .page-navigation {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin: 40px 0;
+        }
+        
+        .nav-btn {
+            background: #4f8ef7;
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 8px;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+        
+        .nav-btn:hover {
+            transform: translateY(-2px);
+            opacity: 0.9;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+
+        <header>
+            <div class="week-label">Week 7 · 8 · 9 — Pemrograman Berorientasi Objek</div>
+            <h1>Rangkuman <span class="hl">PBO</span></h1>
+            <p class="subtitle">Sifat-sifat PBO · Package & Library · GUI Swing</p>
+        </header>
+
+        <nav>
+            <button class="nav-btn nb-w7 active" onclick="showWeek('w7',this)">Week 7 — Sifat PBO</button>
+            <button class="nav-btn nb-w8" onclick="showWeek('w8',this)">Week 8 — Package</button>
+            <button class="nav-btn nb-w9" onclick="showWeek('w9',this)">Week 9 — GUI</button>
+        </nav>
+
+        <!-- ══════════════ WEEK 7 ══════════════ -->
+        <div id="w7" class="week-page visible">
+            <div class="pillars">
+                <div class="pillar p1">Encapsulation</div>
+                <div class="pillar p2">Inheritance</div>
+                <div class="pillar p3">Polymorphism</div>
+                <div class="pillar p4">Abstraction</div>
+            </div>
+
+            <div class="section sb">
+                <div class="section-header">
+                    <div class="dot"></div>
+                    <div class="section-num">01</div>
+                    <div class="section-title">ENCAPSULATION</div>
+                </div>
+                <div class="section-body">
+                    <div class="def-box">Penyembunyian data (<em>data hiding</em>) dengan membungkus variabel dan metode ke dalam satu unit — yaitu <strong>Class</strong>.</div>
+                    <div class="sub-grid">
+                        <div class="sub-card">
+                            <h4 style="color:var(--accent-blue)">Tujuan</h4>
+                            <ul>
+                                <li>Melindungi data dari perubahan langsung luar kelas</li>
+                                <li>Mengontrol bagaimana data diakses/dimodifikasi</li>
+                                <li>Meningkatkan keamanan & kestabilan program</li>
+                            </ul>
+                        </div>
+                        <div class="sub-card">
+                            <h4 style="color:var(--accent-blue)">Metode Enkapsulasi</h4>
+                            <ul>
+                                <li>Buat Class, semua atribut & method di dalamnya</li>
+                                <li>Lakukan kontrol Access Modifier</li>
+                                <li>Sediakan getter & setter yang bersifat <code>public</code></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="sub-card">
+                        <h4 style="color:var(--accent-blue)">Access Modifier</h4>
+                        <p style="font-size:.84rem;color:#94a3b8;margin-bottom:.8rem">Mengatur tingkat akses terhadap kelas, atribut, metode, atau konstruktor.</p>
+                        <table class="am-table">
+                            <thead>
+                                <tr>
+                                    <th style="text-align:left">Modifier</th>
+                                    <th>Dalam Kelas</th>
+                                    <th>Paket Sama</th>
+                                    <th>Subclass</th>
+                                    <th>Di Luar Paket</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>private</td>
+                                    <td class="yes">✓</td>
+                                    <td class="no">✗</td>
+                                    <td class="no">✗</td>
+                                    <td class="no">✗</td>
+                                </tr>
+                                <tr>
+                                    <td>(default)</td>
+                                    <td class="yes">✓</td>
+                                    <td class="yes">✓</td>
+                                    <td class="no">✗</td>
+                                    <td class="no">✗</td>
+                                </tr>
+                                <tr>
+                                    <td>protected</td>
+                                    <td class="yes">✓</td>
+                                    <td class="yes">✓</td>
+                                    <td class="yes">✓</td>
+                                    <td class="no">✗</td>
+                                </tr>
+                                <tr>
+                                    <td>public</td>
+                                    <td class="yes">✓</td>
+                                    <td class="yes">✓</td>
+                                    <td class="yes">✓</td>
+                                    <td class="yes">✓</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section sc">
+                <div class="section-header">
+                    <div class="dot"></div>
+                    <div class="section-num">02</div>
+                    <div class="section-title">INHERITANCE</div>
+                </div>
+                <div class="section-body">
+                    <div class="def-box">Mekanisme OOP yang memungkinkan <strong>subclass</strong> mewarisi properti dan metode dari <strong>superclass</strong>.</div>
+                    <div class="hier">
+                        <div class="hier-node">MANUSIA — Superclass</div>
+                        <div class="hier-arrow">↓</div>
+                        <div class="hier-row">
+                            <div class="hier-node">Dosen</div>
+                            <div class="hier-node">Mahasiswa</div>
+                        </div>
+                    </div>
+                    <div class="sub-grid">
+                        <div class="sub-card">
+                            <h4 style="color:var(--accent-cyan)">Tujuan</h4>
+                            <ul>
+                                <li>Reusability — kode tidak ditulis ulang</li>
+                                <li>Organisasi kode menjadi hierarki</li>
+                                <li>Mendukung polimorfisme</li>
+                            </ul>
+                        </div>
+                        <div class="sub-card">
+                            <h4 style="color:var(--accent-cyan)">Cara Penulisan (Java)</h4>
+                            <ul>
+                                <li>Buat superclass secara normal</li>
+                                <li>Subclass menggunakan kata kunci <code>extends</code></li>
+                                <li>Subclass mewarisi semua atribut & method non-private</li>
+                                <li>Tambahkan atribut/method spesifik di subclass</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="sub-card">
+                        <h4 style="color:var(--accent-cyan)">Method Overriding</h4>
+                        <p style="font-size:.85rem;color:#94a3b8;margin:.5rem 0 .7rem">Mendefinisikan ulang method superclass di subclass dengan perilaku baru yang berbeda.</p>
+                        <span class="tag tag-cyan">Nama method sama</span>
+                        <span class="tag tag-cyan">Parameter sama</span>
+                        <span class="tag tag-cyan">Return type sama</span>
+                        <span class="tag tag-cyan">@Override</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section so">
+                <div class="section-header">
+                    <div class="dot"></div>
+                    <div class="section-num">03</div>
+                    <div class="section-title">POLYMORPHISM</div>
+                </div>
+                <div class="section-body">
+                    <div class="def-box">Konsep OOP yang memungkinkan objek memiliki <strong>banyak bentuk</strong> tergantung konteks penggunaannya.<br><em style="font-size:.8rem;color:var(--muted)">poly = banyak · morph = bentuk</em></div>
+                    <div class="sub-card" style="margin-bottom:1rem">
+                        <h4 style="color:var(--accent-orange)">Tujuan</h4>
+                        <div style="display:flex;gap:1.2rem;flex-wrap:wrap;font-size:.86rem;color:#94a3b8;margin-top:.4rem">
+                            <span><strong style="color:var(--accent-orange)">Reusability</strong> — kode lebih fleksibel</span>
+                            <span><strong style="color:var(--accent-orange)">Scalability</strong> — mudah ditambah</span>
+                            <span><strong style="color:var(--accent-orange)">Interoperability</strong> — method bisa dipanggil tanpa tahu kelas aslinya</span>
+                        </div>
+                    </div>
+                    <div class="method-grid">
+                        <div class="method-card mc-override">
+                            <div class="method-card-head">METHOD OVERRIDING</div>
+                            <div class="method-card-body">
+                                <p style="margin-bottom:.55rem">Mendefinisikan ulang method yang diwariskan dari superclass.</p>
+                                <ul>
+                                    <li>Terjadi antar superclass & subclass</li>
+                                    <li>Nama, parameter, return type harus sama</li>
+                                    <li>Gunakan <code>@Override</code> annotation</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="method-card mc-overload">
+                            <div class="method-card-head">METHOD OVERLOADING</div>
+                            <div class="method-card-body">
+                                <p style="margin-bottom:.55rem">Beberapa method dengan nama sama, parameter berbeda, dalam satu kelas.</p>
+                                <ul>
+                                    <li>Nama method sama</li>
+                                    <li>Jumlah / tipe / urutan parameter berbeda</li>
+                                    <li>Digunakan saat input bisa bermacam tipe</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- /w7 -->
+
+        <!-- ══════════════ WEEK 8 ══════════════ -->
+        <div id="w8" class="week-page">
+            <div class="section sc">
+                <div class="section-header">
+                    <div class="dot"></div>
+                    <div class="section-num">01</div>
+                    <div class="section-title">LIBRARY</div>
+                </div>
+                <div class="section-body">
+                    <div class="def-box">Kumpulan kelas, metode, dan fungsi yang disediakan untuk mempermudah pengembangan aplikasi. Library berisi kode yang dapat digunakan ulang tanpa perlu menulis dari nol.</div>
+                    <div class="sub-grid">
+                        <div class="sub-card">
+                            <h4 style="color:var(--accent-cyan)">Mengapa Penting?</h4>
+                            <ul>
+                                <li><strong style="color:#e2e8f0">Efisiensi</strong> — hemat waktu dan usaha</li>
+                                <li><strong style="color:#e2e8f0">Modularitas</strong> — pakai fungsionalitas tanpa tahu cara implementasinya</li>
+                                <li><strong style="color:#e2e8f0">Reusabilitas</strong> — bisa dipakai di berbagai proyek</li>
+                            </ul>
+                        </div>
+                        <div class="sub-card">
+                            <h4 style="color:var(--accent-cyan)">Struktur Library Java</h4>
+                            <ul>
+                                <li><strong style="color:#e2e8f0">Library</strong> terdiri dari banyak <strong style="color:var(--accent-cyan)">Package</strong></li>
+                                <li>Package berisi banyak <strong style="color:var(--accent-cyan)">Class</strong></li>
+                                <li>Class berisi banyak <strong style="color:var(--accent-cyan)">Method</strong></li>
+                                <li>Contoh: <code>java.util</code> → <code>Scanner</code> → <code>nextInt()</code></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="sub-grid">
+                        <div class="sub-card">
+                            <h4 style="color:var(--accent-cyan)">Standard Library</h4>
+                            <ul>
+                                <li>Library bawaan Java</li>
+                                <li><code>java.lang</code>, <code>java.util</code>, <code>java.io</code></li>
+                                <li><code>java.lang</code> otomatis diload — tidak perlu import</li>
+                            </ul>
+                        </div>
+                        <div class="sub-card">
+                            <h4 style="color:var(--accent-cyan)">External Library</h4>
+                            <ul>
+                                <li>Library pihak ketiga / buatan sendiri</li>
+                                <li>Contoh: Apache Commons, Gson, JUnit</li>
+                                <li>Harus ditambahkan secara manual ke proyek</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="sub-card">
+                        <h4 style="color:var(--accent-cyan)">Membuat Library Sendiri</h4>
+                        <p style="font-size:.86rem;color:#94a3b8;margin-bottom:.6rem">Pisahkan class library dari class utama (main). Simpan di file/folder berbeda, lalu panggil dari program utama.</p>
+                        <span class="tag tag-cyan">Pisah file library</span>
+                        <span class="tag tag-cyan">Class terpisah dari Main</span>
+                        <span class="tag tag-cyan">Panggil via import / package</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section sp">
+                <div class="section-header">
+                    <div class="dot"></div>
+                    <div class="section-num">02</div>
+                    <div class="section-title">PACKAGE</div>
+                </div>
+                <div class="section-body">
+                    <div class="def-box">Cara untuk <strong>mengelompokkan kelas</strong> yang terkait — seperti folder dalam sistem file. Digunakan untuk mengorganisir kode dan mencegah konflik nama kelas.</div>
+                    <div class="sub-grid">
+                        <div class="sub-card">
+                            <h4 style="color:var(--accent-purple)">Manfaat Package</h4>
+                            <ul>
+                                <li>Pengelompokan class secara logis (utils, model, controller)</li>
+                                <li>Menghindari konflik nama class</li>
+                                <li>Kontrol akses (public, default)</li>
+                            </ul>
+                        </div>
+                        <div class="sub-card">
+                            <h4 style="color:var(--accent-purple)">Jenis Package</h4>
+                            <ul>
+                                <li><strong style="color:#e2e8f0">Built-in</strong> — bawaan Java (java.util, java.io, java.lang)</li>
+                                <li><strong style="color:#e2e8f0">User-defined</strong> — package yang kita buat sendiri</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="sub-card" style="margin-bottom:1rem">
+                        <h4 style="color:var(--accent-purple)">Langkah Membuat User-defined Package</h4>
+                        <ol class="steps" style="margin-top:.7rem">
+                            <li>Buat folder baru di tempat program utama disimpan (nama folder = nama package)</li>
+                            <li>Letakkan file library ke dalam folder tersebut</li>
+                            <li>Tambahkan <code>package nama_package;</code> di baris pertama file library</li>
+                            <li>Compile class/package: <code>javac nama_package/NamaClass.java</code></li>
+                            <li>Buat file utama (main program), panggil dengan <code>import nama_package.NamaClass;</code></li>
+                            <li>Compile program utama dan jalankan</li>
+                        </ol>
+                    </div>
+                    <div class="sub-card">
+                        <h4 style="color:var(--accent-purple)">Built-in Package Populer</h4>
+                        <div style="margin-top:.5rem">
+                            <span class="tag tag-purple">java.util → Scanner, Random</span>
+                            <span class="tag tag-purple">java.io → BufferedReader, Console</span>
+                            <span class="tag tag-purple">java.lang → Math, String, System (auto-load)</span>
+                        </div>
+                        <p style="font-size:.83rem;color:#64748b;margin-top:.5rem">Daftar lengkap: <code>docs.oracle.com/en/java/javase/11/docs/api</code></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- /w8 -->
+
+        <!-- ══════════════ WEEK 9 ══════════════ -->
+        <div id="w9" class="week-page">
+            <div class="section so">
+                <div class="section-header">
+                    <div class="dot"></div>
+                    <div class="section-num">01</div>
+                    <div class="section-title">GUI — GRAPHICAL USER INTERFACE</div>
+                </div>
+                <div class="section-body">
+                    <div class="def-box">Antarmuka pengguna berbasis grafis — tombol, teks, jendela, dan menu — yang memudahkan pengguna berinteraksi dengan program.</div>
+                    <div class="sub-grid">
+                        <div class="sub-card">
+                            <h4 style="color:var(--accent-orange)">Library GUI di Java</h4>
+                            <ul>
+                                <li><strong style="color:#e2e8f0">AWT</strong> — lebih kuno, berbasis sistem operasi</li>
+                                <li><strong style="color:var(--accent-orange)">Swing</strong> — lebih modern & fleksibel (<code>javax.swing</code>) ← <em>yang dipelajari</em></li>
+                                <li><strong style="color:#e2e8f0">JavaFX</strong> — paling baru, mendukung animasi & desain kaya</li>
+                            </ul>
+                        </div>
+                        <div class="sub-card">
+                            <h4 style="color:var(--accent-orange)">Komponen Utama Swing</h4>
+                            <ul>
+                                <li><code>JFrame</code> — jendela utama program</li>
+                                <li><code>JLabel</code> — teks statis / output</li>
+                                <li><code>JTextField</code> — input teks satu baris</li>
+                                <li><code>JButton</code> — tombol yang bisa diklik</li>
+                                <li><code>FlowLayout</code> — menyusun komponen kiri-ke-kanan</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section sk">
+                <div class="section-header">
+                    <div class="dot"></div>
+                    <div class="section-num">02</div>
+                    <div class="section-title">MEMBUAT PROGRAM GUI (SWING)</div>
+                </div>
+                <div class="section-body">
+                    <div class="def-box">Program GUI dibuat dengan membuat <strong>Frame</strong>, menambahkan <strong>komponen</strong>, lalu menangani interaksi lewat <strong>Event Handler</strong>.</div>
+                    <div class="sub-card" style="margin-bottom:1rem">
+                        <h4 style="color:var(--accent-pink)">Langkah-langkah</h4>
+                        <ol class="steps" style="margin-top:.7rem">
+                            <li><strong style="color:#e2e8f0">Buat Frame</strong> — <code>JFrame frame = new JFrame("Judul")</code>, atur ukuran dengan <code>setSize(w,h)</code></li>
+                            <li><strong style="color:#e2e8f0">Set Close Operation</strong> — <code>frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE)</code> agar program benar-benar berhenti saat jendela ditutup</li>
+                            <li><strong style="color:#e2e8f0">Set Layout</strong> — <code>frame.setLayout(new FlowLayout())</code> untuk menyusun komponen otomatis</li>
+                            <li><strong style="color:#e2e8f0">Tambah Komponen</strong> — buat objek <code>JLabel</code>, <code>JTextField</code>, <code>JButton</code>, lalu <code>frame.add(...)</code></li>
+                            <li><strong style="color:#e2e8f0">Tampilkan Frame</strong> — <code>frame.setVisible(true)</code></li>
+                            <li><strong style="color:#e2e8f0">Tambah Event Handler</strong> — agar tombol bisa merespons klik pengguna</li>
+                        </ol>
+                    </div>
+                    <div class="sub-card">
+                        <h4 style="color:var(--accent-pink)">Import yang Dibutuhkan</h4>
+                        <div style="margin-top:.5rem">
+                            <span class="tag tag-pink">javax.swing.JFrame</span>
+                            <span class="tag tag-pink">javax.swing.JLabel</span>
+                            <span class="tag tag-pink">javax.swing.JTextField</span>
+                            <span class="tag tag-pink">javax.swing.JButton</span>
+                            <span class="tag tag-pink">java.awt.FlowLayout</span>
+                            <span class="tag tag-pink">java.awt.event.ActionListener</span>
+                            <span class="tag tag-pink">java.awt.event.ActionEvent</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section sy">
+                <div class="section-header">
+                    <div class="dot"></div>
+                    <div class="section-num">03</div>
+                    <div class="section-title">EVENT HANDLER</div>
+                </div>
+                <div class="section-body">
+                    <div class="def-box">Digunakan untuk menjalankan kode ketika terjadi suatu <strong>peristiwa (event)</strong>, misalnya saat pengguna menekan tombol.</div>
+                    <div class="event-row">
+                        <span class="event-pill">Klik Tombol</span>
+                        <span class="event-pill">Tekan Keyboard</span>
+                        <span class="event-pill">Gerakan Mouse</span>
+                        <span class="event-pill">Timer Selesai</span>
+                        <span class="event-pill">Fokus Berpindah</span>
+                    </div>
+                    <div class="sub-grid">
+                        <div class="sub-card">
+                            <h4 style="color:var(--accent-yellow)">Tiga Konsep Utama</h4>
+                            <ul>
+                                <li><strong style="color:#e2e8f0">Event</strong> — peristiwa yang terjadi (mis. tombol diklik)</li>
+                                <li><strong style="color:#e2e8f0">Listener</strong> — objek yang mendengarkan event</li>
+                                <li><strong style="color:#e2e8f0">Handler / Callback</strong> — kode yang dijalankan saat event terjadi</li>
+                            </ul>
+                        </div>
+                        <div class="sub-card">
+                            <h4 style="color:var(--accent-yellow)">Cara Penulisan</h4>
+                            <ul>
+                                <li><code>button.addActionListener(...)</code> — daftarkan listener ke tombol</li>
+                                <li><code>new ActionListener() { ... }</code> — buat objek listener anonim</li>
+                                <li><code>actionPerformed(ActionEvent e)</code> — method yang dijalankan saat diklik</li>
+                                <li>Di dalam <code>actionPerformed</code>: ambil data dari TextField, tampilkan ke Label</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- /w9 -->
+
+        <footer>
+            <span>PBO · WEEK 7 · 8 · 9</span>
+        </footer>
+
+    </div>
+    <!-- /container -->
+
+    <a href="#" class="back-top">↑</a>
+    <div class="page-navigation">
+        <button id="backBtn" class="nav-btn">← Kembali</button>
+        <button id="nextBtn" class="nav-btn">Selanjutnya →</button>
+    </div>
+    <script>
+        // Intersection Observer for scroll animations
+        const sections = document.querySelectorAll('.section');
+        const obs = new IntersectionObserver((entries) => {
+            entries.forEach((e, i) => {
+                if (e.isIntersecting) {
+                    setTimeout(() => e.target.classList.add('visible'), i * 60);
+                }
+            });
+        }, {
+            threshold: 0.05
+        });
+
+        sections.forEach(s => obs.observe(s));
+
+        // Smooth scroll for TOC
+        document.querySelectorAll('.toc a').forEach(a => {
+            a.addEventListener('click', e => {
+                e.preventDefault();
+                const target = document.querySelector(a.getAttribute('href'));
+                if (target) target.scrollIntoView({
+                    behavior: 'smooth',
+                    block: 'start'
+                });
+            });
+        });
+
+        document.getElementById("backBtn").addEventListener("click", function() {
+            window.location.href = "halaman5.html";
+        });
+
+        document.getElementById("nextBtn").addEventListener("click", function() {
+            window.location.href = "tugas.html";
+        });
+    </script>
+    <script>
+        function showWeek(id, btn) {
+            document.querySelectorAll('.week-page').forEach(p => p.classList.remove('visible'));
+            document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+            document.getElementById(id).classList.add('visible');
+            btn.classList.add('active');
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        }
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,994 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rangkuman PBO – Week 1 & 2</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Sans:wght@300;400;500;600&family=JetBrains+Mono:wght@400;600&display=swap');
+         :root {
+            --bg: #0d0f14;
+            --surface: #141720;
+            --border: #1f2433;
+            --accent1: #4f8ef7;
+            --accent2: #f7794f;
+            --accent3: #4ff7b0;
+            --accent4: #f7d24f;
+            --text: #e8ecf5;
+            --muted: #7a8299;
+            --card: #181c27;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            background: var(--bg);
+            color: var(--text);
+            font-family: 'DM Sans', sans-serif;
+            font-size: 15px;
+            line-height: 1.7;
+        }
+        /* ── HEADER ── */
+        
+        header {
+            background: linear-gradient(135deg, #0d0f14 0%, #111525 60%, #0d1628 100%);
+            border-bottom: 1px solid var(--border);
+            padding: 56px 48px 48px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        header::before {
+            content: '';
+            position: absolute;
+            top: -80px;
+            right: -80px;
+            width: 400px;
+            height: 400px;
+            background: radial-gradient(circle, rgba(79, 142, 247, .18) 0%, transparent 70%);
+            pointer-events: none;
+        }
+        
+        header::after {
+            content: '';
+            position: absolute;
+            bottom: -60px;
+            left: 20%;
+            width: 320px;
+            height: 320px;
+            background: radial-gradient(circle, rgba(79, 247, 176, .10) 0%, transparent 70%);
+            pointer-events: none;
+        }
+        
+        .header-tag {
+            display: inline-block;
+            background: rgba(79, 142, 247, .15);
+            border: 1px solid rgba(79, 142, 247, .35);
+            color: var(--accent1);
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 11px;
+            letter-spacing: .12em;
+            text-transform: uppercase;
+            padding: 4px 12px;
+            border-radius: 4px;
+            margin-bottom: 18px;
+        }
+        
+        header h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(2rem, 5vw, 3.2rem);
+            font-weight: 900;
+            line-height: 1.1;
+            margin-bottom: 12px;
+        }
+        
+        header h1 span {
+            color: var(--accent1);
+        }
+        
+        header p.subtitle {
+            color: var(--muted);
+            font-size: 14px;
+            max-width: 520px;
+        }
+        /* ── LAYOUT ── */
+        
+        main {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 48px 32px 80px;
+        }
+        /* ── SECTION TITLE ── */
+        
+        .section-label {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 24px;
+            margin-top: 56px;
+        }
+        
+        .section-label:first-child {
+            margin-top: 0;
+        }
+        
+        .section-num {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 11px;
+            color: var(--accent2);
+            border: 1px solid rgba(247, 121, 79, .3);
+            padding: 2px 8px;
+            border-radius: 3px;
+            letter-spacing: .1em;
+        }
+        
+        .section-label h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.55rem;
+            font-weight: 700;
+            letter-spacing: -.01em;
+        }
+        
+        .divider {
+            flex: 1;
+            height: 1px;
+            background: var(--border);
+            margin-left: 8px;
+        }
+        /* ── CARD ── */
+        
+        .card {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 28px 32px;
+            margin-bottom: 20px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 3px;
+            height: 100%;
+            background: var(--stripe, var(--accent1));
+            border-radius: 12px 0 0 12px;
+        }
+        
+        .card.accent2::before {
+            --stripe: var(--accent2);
+        }
+        
+        .card.accent3::before {
+            --stripe: var(--accent3);
+        }
+        
+        .card.accent4::before {
+            --stripe: var(--accent4);
+        }
+        
+        .card h3 {
+            font-family: 'DM Sans', sans-serif;
+            font-weight: 600;
+            font-size: 1rem;
+            margin-bottom: 10px;
+            color: var(--text);
+        }
+        
+        .card p {
+            color: #b0b8cc;
+            font-size: 14px;
+            line-height: 1.75;
+        }
+        /* ── GRID ── */
+        
+        .grid-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 18px;
+        }
+        
+        .grid-3 {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 18px;
+        }
+        
+        @media(max-width:760px) {
+            .grid-2,
+            .grid-3 {
+                grid-template-columns: 1fr;
+            }
+            header {
+                padding: 40px 24px 36px;
+            }
+            main {
+                padding: 32px 20px 60px;
+            }
+        }
+        /* ── TAG LIST ── */
+        
+        .tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 12px;
+        }
+        
+        .tag {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 11px;
+            padding: 3px 10px;
+            border-radius: 20px;
+            border: 1px solid;
+            color: inherit;
+        }
+        
+        .tag.blue {
+            color: var(--accent1);
+            border-color: rgba(79, 142, 247, .35);
+            background: rgba(79, 142, 247, .08);
+        }
+        
+        .tag.orange {
+            color: var(--accent2);
+            border-color: rgba(247, 121, 79, .35);
+            background: rgba(247, 121, 79, .08);
+        }
+        
+        .tag.green {
+            color: var(--accent3);
+            border-color: rgba(79, 247, 176, .35);
+            background: rgba(79, 247, 176, .08);
+        }
+        
+        .tag.yellow {
+            color: var(--accent4);
+            border-color: rgba(247, 210, 79, .35);
+            background: rgba(247, 210, 79, .08);
+        }
+        
+        .next-container {
+            text-align: center;
+            margin-top: 40px;
+        }
+        
+        #nextBtn {
+            background: var(--accent1);
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 8px;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+        
+        #nextBtn:hover {
+            transform: translateY(-2px);
+            opacity: 0.9;
+        }
+        /* ── DEFINITION LIST ── */
+        
+        dl.def {
+            display: grid;
+            grid-template-columns: auto 1fr;
+            gap: 6px 20px;
+        }
+        
+        dl.def dt {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--accent3);
+            padding-top: 2px;
+            white-space: nowrap;
+        }
+        
+        dl.def dd {
+            color: #b0b8cc;
+            font-size: 14px;
+            border-bottom: 1px solid var(--border);
+            padding-bottom: 8px;
+            margin-bottom: 2px;
+        }
+        /* ── COMPARE TABLE ── */
+        
+        .compare {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 13.5px;
+            margin-top: 4px;
+        }
+        
+        .compare th {
+            background: rgba(79, 142, 247, .1);
+            color: var(--accent1);
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: .08em;
+            padding: 10px 14px;
+            text-align: left;
+            border-bottom: 1px solid var(--border);
+        }
+        
+        .compare th:nth-child(2) {
+            color: var(--accent2);
+            background: rgba(247, 121, 79, .08);
+        }
+        
+        .compare td {
+            padding: 10px 14px;
+            border-bottom: 1px solid var(--border);
+            color: #b0b8cc;
+            vertical-align: top;
+        }
+        
+        .compare tr:last-child td {
+            border-bottom: none;
+        }
+        
+        .compare td:first-child {
+            font-weight: 500;
+            color: var(--text);
+        }
+        
+        .compare td b {
+            color: var(--text);
+            font-weight: 600;
+        }
+        /* ── STEPS ── */
+        
+        .steps {
+            counter-reset: step;
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+            margin-top: 4px;
+        }
+        
+        .step {
+            display: flex;
+            gap: 16px;
+            align-items: flex-start;
+        }
+        
+        .step-n {
+            counter-increment: step;
+            flex-shrink: 0;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            background: rgba(79, 247, 176, .12);
+            border: 1px solid rgba(79, 247, 176, .3);
+            color: var(--accent3);
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 12px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .step-n::after {
+            content: counter(step);
+        }
+        
+        .step-body {
+            padding-top: 4px;
+        }
+        
+        .step-body strong {
+            color: var(--text);
+            font-size: 14px;
+            display: block;
+            margin-bottom: 2px;
+        }
+        
+        .step-body span {
+            color: var(--muted);
+            font-size: 13px;
+        }
+        /* ── CODE BLOCK ── */
+        
+        pre.code-block {
+            background: #0a0c11;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 20px 22px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 12.5px;
+            line-height: 1.7;
+            overflow-x: auto;
+            margin-top: 6px;
+            color: #c8cfe0;
+        }
+        
+        .kw {
+            color: #4f8ef7;
+        }
+        
+        .cl {
+            color: #4ff7b0;
+        }
+        
+        .fn {
+            color: #f7d24f;
+        }
+        
+        .str {
+            color: #f7794f;
+        }
+        
+        .cm {
+            color: #4a5168;
+            font-style: italic;
+        }
+        /* ── PILL ROW ── */
+        
+        .pill-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 10px;
+        }
+        
+        .pill {
+            padding: 6px 14px;
+            border-radius: 30px;
+            font-size: 12.5px;
+            font-weight: 500;
+            border: 1px solid;
+        }
+        /* ── INLINE BADGE ── */
+        
+        .badge {
+            display: inline-block;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 10px;
+            padding: 2px 7px;
+            border-radius: 3px;
+            margin-left: 6px;
+            vertical-align: middle;
+        }
+        /* ── NOTE BOX ── */
+        
+        .note {
+            background: rgba(247, 210, 79, .06);
+            border: 1px solid rgba(247, 210, 79, .25);
+            border-radius: 8px;
+            padding: 14px 18px;
+            font-size: 13.5px;
+            color: #c8b870;
+            margin-top: 16px;
+        }
+        
+        .note strong {
+            color: var(--accent4);
+        }
+        /* ── ERROR BOX ── */
+        
+        .error-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+            margin-top: 4px;
+        }
+        
+        .err-box {
+            border-radius: 8px;
+            padding: 18px 20px;
+            border: 1px solid;
+        }
+        
+        .err-box.syntax {
+            border-color: rgba(247, 121, 79, .3);
+            background: rgba(247, 121, 79, .06);
+        }
+        
+        .err-box.runtime {
+            border-color: rgba(79, 142, 247, .3);
+            background: rgba(79, 142, 247, .06);
+        }
+        
+        .err-box h4 {
+            font-size: 13px;
+            font-family: 'JetBrains Mono', monospace;
+            margin-bottom: 10px;
+        }
+        
+        .err-box.syntax h4 {
+            color: var(--accent2);
+        }
+        
+        .err-box.runtime h4 {
+            color: var(--accent1);
+        }
+        
+        .err-box ul {
+            padding-left: 18px;
+        }
+        
+        .err-box li {
+            color: #b0b8cc;
+            font-size: 13px;
+            margin-bottom: 5px;
+        }
+        
+        @media(max-width:600px) {
+            .grid-2,
+            .grid-3,
+            .error-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        .back-top {
+            position: fixed;
+            /* tetap di layar walau di-scroll */
+            bottom: 28px;
+            /* jarak dari bawah */
+            right: 28px;
+            /* jarak dari kanan */
+            width: 42px;
+            height: 42px;
+            background: #5b8fff;
+            /* warna biru */
+            color: #fff;
+            border-radius: 50%;
+            /* bikin bulat */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            text-decoration: none;
+            box-shadow: 0 4px 20px rgba(91, 143, 255, 0.4);
+            /* glow effect */
+            transition: transform 0.2s;
+        }
+        
+        .back-top:hover {
+            transform: translateY(-3px);
+            /* naik sedikit saat di-hover */
+        }
+        
+        footer {
+            text-align: center;
+            padding: 25px;
+            border-top: 1px solid var(--border);
+            color: var(--muted);
+            font-size: 14px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- ══════════════════════════════ HEADER ══════════════════════════════ -->
+    <header>
+        <div class="header-tag">Pemrograman Berorientasi Obyek · Week 1–2</div>
+        <h1>Rangkuman <span>Materi</span> PBO</h1>
+        <p class="subtitle">Bahasa Pemrograman · Paradigma · Pengenalan Java · Instalasi JDK</p>
+    </header>
+    <div class="next-container">
+        <button id="nextBtn">Next →</button>
+    </div>
+    <main>
+
+        <!-- ══ 1. BAHASA PEMROGRAMAN ══ -->
+        <div class="section-label">
+            <span class="section-num">01</span>
+            <h2>Bahasa Pemrograman</h2>
+            <div class="divider"></div>
+        </div>
+
+        <div class="grid-2">
+            <div class="card">
+                <h3>Apa itu Bahasa Pemrograman?</h3>
+                <p>Kode (termasuk sintak, format, dan aturan) yang ditulis untuk membuat program aplikasi menggunakan tools tertentu. Proses penulisannya disebut <strong style="color:var(--accent1)">Coding</strong>, dan hasilnya disebut <strong style="color:var(--accent1)">Source Code</strong>.</p>
+            </div>
+            <div class="card accent2">
+                <h3>Langkah Membuat Aplikasi</h3>
+                <div class="steps">
+                    <div class="step">
+                        <div class="step-n"></div>
+                        <div class="step-body"><strong>Design</strong><span>UML, Flowchart, ERD, Mockup</span></div>
+                    </div>
+                    <div class="step">
+                        <div class="step-n"></div>
+                        <div class="step-body"><strong>Coding</strong><span>Bahasa Pemrograman + Code Editor</span></div>
+                    </div>
+                    <div class="step">
+                        <div class="step-n"></div>
+                        <div class="step-body"><strong>Compiling</strong><span>Compiler / Interpreter</span></div>
+                    </div>
+                    <div class="step">
+                        <div class="step-n"></div>
+                        <div class="step-body"><strong>Aplikasi</strong><span>Kasir, Games, Mobile App, dll.</span></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Generasi -->
+        <div class="card accent3" style="margin-top:0">
+            <h3>Klasifikasi Berdasarkan Generasi Teknologi</h3>
+            <div class="grid-3" style="margin-top:14px">
+                <div>
+                    <div class="tag yellow" style="margin-bottom:8px">Gen. 1 — Bahasa Mesin</div>
+                    <p style="font-size:13px">Biner (0 dan 1) murni. Tidak lagi digunakan untuk membuat program saat ini.</p>
+                </div>
+                <div>
+                    <div class="tag blue" style="margin-bottom:8px">Gen. 2 — Assembler</div>
+                    <p style="font-size:13px">Bahasa tingkat rendah. Masih dipakai untuk firmware, BIOS, dan driver hardware.</p>
+                </div>
+                <div>
+                    <div class="tag green" style="margin-bottom:8px">Gen. 3 — Tingkat Tinggi</div>
+                    <p style="font-size:13px">Mendekati bahasa manusia. Contoh: Pascal, COBOL, C. Diterjemahkan via compiler/interpreter.</p>
+                </div>
+            </div>
+            <div class="note" style="margin-top:18px"><strong>Gen. 4</strong> — Pengembangan dari Gen. 3, dengan tambahan interaksi database. Contoh: Java, Python, PHP, C++, VB, SQL.</div>
+        </div>
+
+        <!-- Code Base -->
+        <div class="card">
+            <h3>Klasifikasi Berdasarkan Code Base</h3>
+            <table class="compare" style="margin-top:12px">
+                <tr>
+                    <th>Bahasa Induk</th>
+                    <th>Ciri Khas</th>
+                    <th>Turunan Utama</th>
+                </tr>
+                <tr>
+                    <td><b>Bahasa C</b></td>
+                    <td>Kurung kurawal <code>{ }</code>, titik koma <code>;</code>, fungsi <code>main()</code></td>
+                    <td>C++, Java, C#, Golang, JavaScript, PHP</td>
+                </tr>
+                <tr>
+                    <td><b>Bahasa Pascal</b></td>
+                    <td><code>Begin … End;</code>, deklaratif di awal program</td>
+                    <td>Lazarus, Delphi, Embarcadero, Python</td>
+                </tr>
+                <tr>
+                    <td><b>Bahasa Basic</b></td>
+                    <td>Blok kode dengan sintak pembuka/penutup, pindah baris sebagai pemisah</td>
+                    <td>Visual Basic, VB.NET</td>
+                </tr>
+            </table>
+        </div>
+
+        <!-- Platform -->
+        <div class="card accent4">
+            <h3>Klasifikasi Berdasarkan Platform</h3>
+            <div class="grid-3" style="margin-top:14px">
+                <div>
+                    <div class="tag yellow" style="margin-bottom:8px">Desktop</div>
+                    <p style="font-size:13px">Kompleks, akses hardware langsung. Contoh: Kasir, Office Suite, ERP.<br><br><em style="color:var(--muted)">Bahasa: C/C++, Java, Delphi, VB</em></p>
+                </div>
+                <div>
+                    <div class="tag orange" style="margin-bottom:8px">Mobile</div>
+                    <p style="font-size:13px">Untuk Smartphone & Tablet (Android/iOS). Contoh: Medsos, Games.<br><br><em style="color:var(--muted)">Bahasa: Java/Kotlin, Swift, Flutter, React Native</em></p>
+                </div>
+                <div>
+                    <div class="tag green" style="margin-bottom:8px">Web</div>
+                    <p style="font-size:13px">Diakses via browser, lintas platform. Contoh: Website, Google Suite.<br><br><em style="color:var(--muted)">Front End: HTML, CSS, JS · Back End: PHP, Python, Node.JS</em></p>
+                </div>
+            </div>
+        </div>
+
+        <!-- ══ 2. PARADIGMA PEMROGRAMAN ══ -->
+        <div class="section-label">
+            <span class="section-num">02</span>
+            <h2>Paradigma Pemrograman</h2>
+            <div class="divider"></div>
+        </div>
+
+        <div class="card">
+            <h3>Definisi Paradigma</h3>
+            <p>Pendekatan atau gaya dalam menulis dan menyusun kode program berdasarkan prinsip tertentu. Paradigma <strong style="color:var(--accent1)">mempengaruhi cara berpikir</strong> programmer dalam merancang program dan membantu memilih bahasa yang
+                tepat. Tidak ada paradigma yang benar/salah — yang ada adalah <strong style="color:var(--accent1)">metode mana yang lebih efektif</strong> untuk kasus tertentu.</p>
+            <div class="note" style="margin-top:14px"><strong>Analogi Indomie:</strong> Tujuan yang sama (membuat makanan dari mie), tetapi cara yang ditempuh berbeda — itulah "paradigma".</div>
+        </div>
+
+        <div class="grid-2">
+            <div class="card accent2">
+                <h3>Imperative Programming</h3>
+                <p>Berfokus pada <strong style="color:var(--text)">BAGAIMANA</strong> komputer melakukan tugas melalui instruksi langkah demi langkah. Programmer harus menjelaskan setiap langkah karena ada tujuan akhir yang jelas.</p>
+                <div class="tags" style="margin-top:14px">
+                    <span class="tag orange">Procedural</span>
+                    <span class="tag orange">Object Oriented</span>
+                    <span class="tag orange">Parallel Processing</span>
+                </div>
+                <p style="font-size:12.5px;margin-top:10px;color:var(--muted)">Contoh app: Kasir, Akunting, Games bertingkat, Kalkulator<br>Bahasa: Java, C, C++, JavaScript</p>
+            </div>
+            <div class="card accent3">
+                <h3>Declarative Programming</h3>
+                <p>Menekankan pada <strong style="color:var(--text)">APA</strong> yang harus dilakukan, bukan bagaimana. Programmer mendeklarasikan aturan/data; program menjawab sesuai aturan tersebut saat ditanya.</p>
+                <div class="tags" style="margin-top:14px">
+                    <span class="tag green">Logic</span>
+                    <span class="tag green">Functional</span>
+                    <span class="tag green">Database</span>
+                </div>
+                <p style="font-size:12.5px;margin-top:10px;color:var(--muted)">Contoh app: ChatGPT, SQL Query<br>Bahasa: SQL, Prolog, Haskell</p>
+            </div>
+        </div>
+
+        <!-- Procedural vs OOP -->
+        <div class="card" style="margin-top:0">
+            <h3>Procedural vs Object Oriented Programming (OOP)</h3>
+            <table class="compare" style="margin-top:14px">
+                <tr>
+                    <th>Aspek</th>
+                    <th>Procedural</th>
+                    <th style="color:var(--accent3);background:rgba(79,247,176,.08)">OOP</th>
+                </tr>
+                <tr>
+                    <td>Pendekatan</td>
+                    <td>Berbasis prosedur/fungsi, tujuan akhir jelas</td>
+                    <td>Berbasis objek yang meniru dunia nyata</td>
+                </tr>
+                <tr>
+                    <td>Struktur Data</td>
+                    <td>Sekumpulan prosedur yang mengoperasikan data</td>
+                    <td>Kelas yang membentuk objek (atribut + method)</td>
+                </tr>
+                <tr>
+                    <td>Data & Fungsi</td>
+                    <td>Data bersifat global, dilewatkan antar fungsi</td>
+                    <td>Data terenkapsulasi dalam objek</td>
+                </tr>
+                <tr>
+                    <td>Keamanan Data</td>
+                    <td>Kurang terlindungi (dapat diakses dari mana saja)</td>
+                    <td>Lebih terlindungi (akses dikontrol via method)</td>
+                </tr>
+                <tr>
+                    <td>Alur Program</td>
+                    <td>Linear, berurutan dari awal ke akhir</td>
+                    <td>Objek-objek saling berinteraksi</td>
+                </tr>
+                <tr>
+                    <td>Konsep Utama</td>
+                    <td>Fungsi, Prosedur</td>
+                    <td>Encapsulation, Inheritance, Polymorphism</td>
+                </tr>
+                <tr>
+                    <td>Contoh Bahasa</td>
+                    <td>C, Pascal, Python (mode prosedural)</td>
+                    <td>Java, C++, Python (mode OOP)</td>
+                </tr>
+            </table>
+        </div>
+
+        <!-- ══ 3. PENGENALAN JAVA ══ -->
+        <div class="section-label">
+            <span class="section-num">03</span>
+            <h2>Pengenalan Java</h2>
+            <div class="divider"></div>
+        </div>
+
+        <div class="grid-2">
+            <div class="card accent1">
+                <h3>Sejarah Singkat Java</h3>
+                <div class="steps">
+                    <div class="step">
+                        <div class="step-n"></div>
+                        <div class="step-body"><strong>1991 — Proyek Green</strong><span>Patrick Naughton & James Gosling merancang perangkat dengan memori minimal yang bisa berjalan di berbagai hardware.</span></div>
+                    </div>
+                    <div class="step">
+                        <div class="step-n"></div>
+                        <div class="step-body"><strong>Pengaruh Bahasa</strong><span>Sintaks dari C++ · Teknologi Virtual Machine dari Pascal (Niclaus Wirth)</span></div>
+                    </div>
+                    <div class="step">
+                        <div class="step-n"></div>
+                        <div class="step-body"><strong>Nama Awal: OAK</strong><span>Kemudian berganti nama menjadi Java.</span></div>
+                    </div>
+                </div>
+            </div>
+            <div class="card">
+                <h3>Mengapa Java?</h3>
+                <dl class="def">
+                    <dt>Simple</dt>
+                    <dd>Lebih mudah dari C++</dd>
+                    <dt>OOP</dt>
+                    <dd>Berbasis Object Oriented Programming</dd>
+                    <dt>Distributed</dt>
+                    <dd>Banyak library terintegrasi Java Networking</dd>
+                    <dt>Multi-Platform</dt>
+                    <dd>Architecture Neutral berkat JVM</dd>
+                    <dt>Robust</dt>
+                    <dd>Compiler teliti + Exception Handling</dd>
+                    <dt>Dynamic</dt>
+                    <dd>Penambahan method tidak ganggu program berjalan</dd>
+                    <dt>GC</dt>
+                    <dd>Garbage Collection: optimasi memori tidak terpakai</dd>
+                    <dt>Security</dt>
+                    <dd>Menyediakan 3 lapis code security</dd>
+                </dl>
+            </div>
+        </div>
+
+        <!-- JDK JRE JVM -->
+        <div class="card accent3" style="margin-top:0">
+            <h3>Tiga Komponen Utama Java</h3>
+            <div class="grid-3" style="margin-top:16px">
+                <div>
+                    <div class="tag yellow" style="margin-bottom:10px">JDK — Java Development Kit</div>
+                    <p style="font-size:13px">Paket <strong style="color:var(--text)">lengkap untuk pengembang</strong>. Berisi JRE + Compiler (javac) + Debugger + Tools lainnya. <em>Diperlukan untuk menulis & mengkompilasi kode Java.</em></p>
+                </div>
+                <div>
+                    <div class="tag blue" style="margin-bottom:10px">JRE — Java Runtime Environment</div>
+                    <p style="font-size:13px">Lingkungan runtime berisi JVM + Library & API standar. <em>Cukup untuk menjalankan aplikasi Java tanpa mengembangkan.</em></p>
+                </div>
+                <div>
+                    <div class="tag green" style="margin-bottom:10px">JVM — Java Virtual Machine</div>
+                    <p style="font-size:13px">Mesin virtual yang menjalankan bytecode Java. Melakukan <strong style="color:var(--text)">JIT Compilation</strong> (bytecode → kode mesin). Bersifat <strong style="color:var(--text)">platform-independent</strong>.</p>
+                </div>
+            </div>
+            <div class="note" style="margin-top:14px"><strong>Hierarki:</strong> JDK ⊃ JRE ⊃ JVM. JVM ada di dalam JRE, sehingga jika hanya ingin menjalankan program cukup install JRE.</div>
+        </div>
+
+        <!-- Fase Pemrograman Java -->
+        <div class="card">
+            <h3>Fase Pemrograman Java</h3>
+            <div class="steps" style="margin-top:14px">
+                <div class="step">
+                    <div class="step-n"></div>
+                    <div class="step-body"><strong>Tulis kode di Text Editor / IDE</strong><span>Simpan sebagai <code style="color:var(--accent3)">NamaKelas.java</code> — nama file harus sama dengan nama class.</span></div>
+                </div>
+                <div class="step">
+                    <div class="step-n"></div>
+                    <div class="step-body"><strong>Compile dengan javac</strong><span><code style="color:var(--accent4)">javac NamaKelas.java</code> → menghasilkan file <code style="color:var(--accent3)">NamaKelas.class</code> (bytecode)</span></div>
+                </div>
+                <div class="step">
+                    <div class="step-n"></div>
+                    <div class="step-body"><strong>Jalankan dengan java</strong><span><code style="color:var(--accent4)">java NamaKelas</code> → JVM mengeksekusi bytecode, program berjalan.</span></div>
+                </div>
+            </div>
+
+            <pre class="code-block" style="margin-top:20px"><span class="kw">public class</span> <span class="cl">hello</span> {
+    <span class="kw">public static void</span> <span class="fn">main</span>(<span class="cl">String</span>[] args) {
+        <span class="cl">System</span>.out.<span class="fn">println</span>(<span class="str">"Hello World!"</span>);
+    }
+} <span class="cm">// Contoh program pertama Java</span></pre>
+        </div>
+
+        <!-- Error Types -->
+        <div class="card accent2" style="margin-top:0">
+            <h3>Jenis Error dalam Java</h3>
+            <div class="error-grid" style="margin-top:14px">
+                <div class="err-box syntax">
+                    <h4>⚠ Syntax Error</h4>
+                    <ul>
+                        <li>Kesalahan penulisan sintak</li>
+                        <li>Terdeteksi saat proses <strong>compile</strong></li>
+                        <li>File .class tidak akan terbentuk</li>
+                        <li>Contoh: lupa tanda <code>;</code>, salah kapitalisasi</li>
+                    </ul>
+                </div>
+                <div class="err-box runtime">
+                    <h4>🔴 Runtime Error</h4>
+                    <ul>
+                        <li>Kesalahan logika program</li>
+                        <li>Terdeteksi saat fungsi <strong>dijalankan</strong></li>
+                        <li>Compiling berhasil, file .class tetap terbentuk</li>
+                        <li>Contoh: pembagian dengan 0 (<code>10/0</code>)</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Editor & IDE -->
+        <div class="card">
+            <h3>Editor & IDE untuk Java</h3>
+            <div class="grid-2" style="margin-top:12px">
+                <div>
+                    <p style="font-size:12px;color:var(--muted);margin-bottom:8px;text-transform:uppercase;letter-spacing:.08em">Text Editor + Console</p>
+                    <div class="pill-row">
+                        <span class="pill tag blue">Notepad</span>
+                        <span class="pill tag blue">Notepad++</span>
+                        <span class="pill tag blue">vim / vi</span>
+                        <span class="pill tag blue">Nano</span>
+                    </div>
+                </div>
+                <div>
+                    <p style="font-size:12px;color:var(--muted);margin-bottom:8px;text-transform:uppercase;letter-spacing:.08em">IDE (Integrated Dev. Environment)</p>
+                    <div class="pill-row">
+                        <span class="pill tag green">NetBeans</span>
+                        <span class="pill tag green">Eclipse</span>
+                        <span class="pill tag green">JCreator</span>
+                        <span class="pill tag green">BlueJ</span>
+                        <span class="pill tag green">Android Studio</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ══ 4. INSTALASI JDK ══ -->
+        <div class="section-label">
+            <span class="section-num">04</span>
+            <h2>Instalasi Java JDK</h2>
+            <div class="divider"></div>
+        </div>
+
+        <div class="card accent4">
+            <h3>Langkah-langkah Instalasi JDK di Windows</h3>
+            <div class="steps" style="margin-top:16px">
+                <div class="step">
+                    <div class="step-n"></div>
+                    <div class="step-body">
+                        <strong>Unduh Installer JDK</strong>
+                        <span>Kunjungi <code style="color:var(--accent4)">oracle.com/java/technologies/downloads</code>. Pilih versi LTS (disarankan Java 17 atau Java 21). Pilih OS (Windows) → pilih <strong>x64 Installer</strong>.</span>
+                    </div>
+                </div>
+                <div class="step">
+                    <div class="step-n"></div>
+                    <div class="step-body">
+                        <strong>Proses Instalasi</strong>
+                        <span>Buka file <code>.exe</code> → klik Next → perhatikan lokasi instalasi (biasanya <code>C:\Program Files\Java\jdk-xx</code>) → klik Next hingga selesai → Close.</span>
+                    </div>
+                </div>
+                <div class="step">
+                    <div class="step-n"></div>
+                    <div class="step-body">
+                        <strong>Verifikasi Instalasi</strong>
+                        <span>Buka Command Prompt → ketik <code style="color:var(--accent3)">java --version</code> dan <code style="color:var(--accent3)">javac -version</code>. Jika muncul versi Java → instalasi berhasil!</span>
+                    </div>
+                </div>
+                <div class="step">
+                    <div class="step-n"></div>
+                    <div class="step-body">
+                        <strong>Setting PATH (jika langkah 3 gagal)</strong>
+                        <span>Start → My Computer → Properties → Advanced System Settings → Environment Variables → Edit variabel <code>Path</code> → tambahkan dua entri baru:</span>
+                    </div>
+                </div>
+            </div>
+            <pre class="code-block" style="margin-top:14px">C:\Program Files\Java\jdk-21
+C:\Program Files\Java\jdk-21\bin</pre>
+            <div class="note" style="margin-top:14px">Setelah setting PATH, beberapa PC perlu <strong>restart</strong>. Selanjutnya ulangi langkah verifikasi (Step 3).</div>
+        </div>
+
+        <!-- Checklist akhir -->
+        <div class="card accent1" style="margin-bottom:0">
+            <h3>Checklist Siap Mulai Java</h3>
+            <div class="grid-2" style="margin-top:14px">
+                <div>
+                    <div class="tags" style="flex-direction:column;gap:10px">
+                        <span class="tag green">✔ JDK terinstall di C:\Program Files\Java\</span>
+                        <span class="tag green">✔ PATH sudah diatur (java + javac)</span>
+                        <span class="tag green">✔ java --version menampilkan versi</span>
+                    </div>
+                </div>
+                <div>
+                    <div class="tags" style="flex-direction:column;gap:10px">
+                        <span class="tag blue">✔ Pilih editor (Notepad++ atau IDE)</span>
+                        <span class="tag blue">✔ Buat file NamaKelas.java</span>
+                        <span class="tag blue">✔ Compile & jalankan Hello World!</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </main>
+    <script>
+        document.getElementById("nextBtn").addEventListener("click", function() {
+            window.location.href = "halaman2.html";
+        });
+    </script>
+    <a href="#" class="back-top">↑</a>
+    <footer>
+        PBO — Week 1 & 2 | Bahasa Pemrograman, Paradigma, Pengenalan Java, & Instalasi JDK| Rangkuman Materi
+    </footer>
+</body>
+
+</html>

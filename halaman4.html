@@ -1,0 +1,1019 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rangkuman PBO – Week 5</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Sans:wght@300;400;500;600&family=JetBrains+Mono:wght@400;600&display=swap');
+         :root {
+            --bg: #0d0f14;
+            --surface: #141720;
+            --border: #1f2433;
+            --accent1: #4f8ef7;
+            --accent2: #f7794f;
+            --accent3: #4ff7b0;
+            --accent4: #f7d24f;
+            --text: #e8ecf5;
+            --muted: #7a8299;
+            --card: #181c27;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            background: var(--bg);
+            color: var(--text);
+            font-family: 'DM Sans', sans-serif;
+            font-size: 15px;
+            line-height: 1.7;
+        }
+        /* ── HEADER ── */
+        
+        header {
+            background: linear-gradient(135deg, #0d0f14 0%, #111525 60%, #0d1628 100%);
+            border-bottom: 1px solid var(--border);
+            padding: 56px 48px 48px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        header::before {
+            content: '';
+            position: absolute;
+            top: -80px;
+            right: -80px;
+            width: 400px;
+            height: 400px;
+            background: radial-gradient(circle, rgba(79, 142, 247, .18) 0%, transparent 70%);
+            pointer-events: none;
+        }
+        
+        header::after {
+            content: '';
+            position: absolute;
+            bottom: -60px;
+            left: 20%;
+            width: 320px;
+            height: 320px;
+            background: radial-gradient(circle, rgba(79, 247, 176, .10) 0%, transparent 70%);
+            pointer-events: none;
+        }
+        
+        .header-tag {
+            display: inline-block;
+            background: rgba(79, 142, 247, .15);
+            border: 1px solid rgba(79, 142, 247, .35);
+            color: var(--accent1);
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 11px;
+            letter-spacing: .12em;
+            text-transform: uppercase;
+            padding: 4px 12px;
+            border-radius: 4px;
+            margin-bottom: 18px;
+        }
+        
+        header h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(2rem, 5vw, 3.2rem);
+            font-weight: 900;
+            line-height: 1.1;
+            margin-bottom: 12px;
+        }
+        
+        header h1 span {
+            color: var(--accent1);
+        }
+        
+        header p.subtitle {
+            color: var(--muted);
+            font-size: 14px;
+            max-width: 520px;
+        }
+        /* ── LAYOUT ── */
+        
+        main {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 48px 32px 80px;
+        }
+        /* ── SECTION TITLE ── */
+        
+        .section-label {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 24px;
+            margin-top: 56px;
+        }
+        
+        .section-label:first-child {
+            margin-top: 0;
+        }
+        
+        .section-num {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 11px;
+            color: var(--accent2);
+            border: 1px solid rgba(247, 121, 79, .3);
+            padding: 2px 8px;
+            border-radius: 3px;
+            letter-spacing: .1em;
+        }
+        
+        .section-label h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.55rem;
+            font-weight: 700;
+            letter-spacing: -.01em;
+        }
+        
+        .divider {
+            flex: 1;
+            height: 1px;
+            background: var(--border);
+            margin-left: 8px;
+        }
+        /* ── CARD ── */
+        
+        .card {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 28px 32px;
+            margin-bottom: 20px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 3px;
+            height: 100%;
+            background: var(--stripe, var(--accent1));
+            border-radius: 12px 0 0 12px;
+        }
+        
+        .card.accent2::before {
+            --stripe: var(--accent2);
+        }
+        
+        .card.accent3::before {
+            --stripe: var(--accent3);
+        }
+        
+        .card.accent4::before {
+            --stripe: var(--accent4);
+        }
+        
+        .card h3 {
+            font-family: 'DM Sans', sans-serif;
+            font-weight: 600;
+            font-size: 1rem;
+            margin-bottom: 10px;
+            color: var(--text);
+        }
+        
+        .card p {
+            color: #b0b8cc;
+            font-size: 14px;
+            line-height: 1.75;
+        }
+        /* ── GRID ── */
+        
+        .grid-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 18px;
+        }
+        
+        .grid-3 {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 18px;
+        }
+        
+        @media(max-width:760px) {
+            .grid-2,
+            .grid-3 {
+                grid-template-columns: 1fr;
+            }
+            header {
+                padding: 40px 24px 36px;
+            }
+            main {
+                padding: 32px 20px 60px;
+            }
+        }
+        /* ── TAG LIST ── */
+        
+        .tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 12px;
+        }
+        
+        .tag {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 11px;
+            padding: 3px 10px;
+            border-radius: 20px;
+            border: 1px solid;
+            color: inherit;
+        }
+        
+        .tag.blue {
+            color: var(--accent1);
+            border-color: rgba(79, 142, 247, .35);
+            background: rgba(79, 142, 247, .08);
+        }
+        
+        .tag.orange {
+            color: var(--accent2);
+            border-color: rgba(247, 121, 79, .35);
+            background: rgba(247, 121, 79, .08);
+        }
+        
+        .tag.green {
+            color: var(--accent3);
+            border-color: rgba(79, 247, 176, .35);
+            background: rgba(79, 247, 176, .08);
+        }
+        
+        .tag.yellow {
+            color: var(--accent4);
+            border-color: rgba(247, 210, 79, .35);
+            background: rgba(247, 210, 79, .08);
+        }
+        
+        .next-container {
+            text-align: center;
+            margin-top: 40px;
+        }
+        
+        #nextBtn {
+            background: var(--accent1);
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 8px;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+        
+        #nextBtn:hover {
+            transform: translateY(-2px);
+            opacity: 0.9;
+        }
+        /* ── DEFINITION LIST ── */
+        
+        dl.def {
+            display: grid;
+            grid-template-columns: auto 1fr;
+            gap: 6px 20px;
+        }
+        
+        dl.def dt {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--accent3);
+            padding-top: 2px;
+            white-space: nowrap;
+        }
+        
+        dl.def dd {
+            color: #b0b8cc;
+            font-size: 14px;
+            border-bottom: 1px solid var(--border);
+            padding-bottom: 8px;
+            margin-bottom: 2px;
+        }
+        /* ── COMPARE TABLE ── */
+        
+        .compare {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 13.5px;
+            margin-top: 4px;
+        }
+        
+        .compare th {
+            background: rgba(79, 142, 247, .1);
+            color: var(--accent1);
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: .08em;
+            padding: 10px 14px;
+            text-align: left;
+            border-bottom: 1px solid var(--border);
+        }
+        
+        .compare th:nth-child(2) {
+            color: var(--accent2);
+            background: rgba(247, 121, 79, .08);
+        }
+        
+        .compare td {
+            padding: 10px 14px;
+            border-bottom: 1px solid var(--border);
+            color: #b0b8cc;
+            vertical-align: top;
+        }
+        
+        .compare tr:last-child td {
+            border-bottom: none;
+        }
+        
+        .compare td:first-child {
+            font-weight: 500;
+            color: var(--text);
+        }
+        
+        .compare td b {
+            color: var(--text);
+            font-weight: 600;
+        }
+        /* ── STEPS ── */
+        
+        .steps {
+            counter-reset: step;
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+            margin-top: 4px;
+        }
+        
+        .step {
+            display: flex;
+            gap: 16px;
+            align-items: flex-start;
+        }
+        
+        .step-n {
+            counter-increment: step;
+            flex-shrink: 0;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            background: rgba(79, 247, 176, .12);
+            border: 1px solid rgba(79, 247, 176, .3);
+            color: var(--accent3);
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 12px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .step-n::after {
+            content: counter(step);
+        }
+        
+        .step-body {
+            padding-top: 4px;
+        }
+        
+        .step-body strong {
+            color: var(--text);
+            font-size: 14px;
+            display: block;
+            margin-bottom: 2px;
+        }
+        
+        .step-body span {
+            color: var(--muted);
+            font-size: 13px;
+        }
+        /* ── CODE BLOCK ── */
+        
+        pre.code-block {
+            background: #0a0c11;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 20px 22px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 12.5px;
+            line-height: 1.7;
+            overflow-x: auto;
+            margin-top: 6px;
+            color: #c8cfe0;
+        }
+        
+        .kw {
+            color: #4f8ef7;
+        }
+        
+        .cl {
+            color: #4ff7b0;
+        }
+        
+        .fn {
+            color: #f7d24f;
+        }
+        
+        .str {
+            color: #f7794f;
+        }
+        
+        .cm {
+            color: #4a5168;
+            font-style: italic;
+        }
+        /* ── PILL ROW ── */
+        
+        .pill-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 10px;
+        }
+        
+        .pill {
+            padding: 6px 14px;
+            border-radius: 30px;
+            font-size: 12.5px;
+            font-weight: 500;
+            border: 1px solid;
+        }
+        /* ── INLINE BADGE ── */
+        
+        .badge {
+            display: inline-block;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 10px;
+            padding: 2px 7px;
+            border-radius: 3px;
+            margin-left: 6px;
+            vertical-align: middle;
+        }
+        /* ── NOTE BOX ── */
+        
+        .note {
+            background: rgba(247, 210, 79, .06);
+            border: 1px solid rgba(247, 210, 79, .25);
+            border-radius: 8px;
+            padding: 14px 18px;
+            font-size: 13.5px;
+            color: #c8b870;
+            margin-top: 16px;
+        }
+        
+        .note strong {
+            color: var(--accent4);
+        }
+        /* ── ERROR BOX ── */
+        
+        .error-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+            margin-top: 4px;
+        }
+        
+        .err-box {
+            border-radius: 8px;
+            padding: 18px 20px;
+            border: 1px solid;
+        }
+        
+        .err-box.syntax {
+            border-color: rgba(247, 121, 79, .3);
+            background: rgba(247, 121, 79, .06);
+        }
+        
+        .err-box.runtime {
+            border-color: rgba(79, 142, 247, .3);
+            background: rgba(79, 142, 247, .06);
+        }
+        
+        .err-box h4 {
+            font-size: 13px;
+            font-family: 'JetBrains Mono', monospace;
+            margin-bottom: 10px;
+        }
+        
+        .err-box.syntax h4 {
+            color: var(--accent2);
+        }
+        
+        .err-box.runtime h4 {
+            color: var(--accent1);
+        }
+        
+        .err-box ul {
+            padding-left: 18px;
+        }
+        
+        .err-box li {
+            color: #b0b8cc;
+            font-size: 13px;
+            margin-bottom: 5px;
+        }
+        
+        @media(max-width:600px) {
+            .grid-2,
+            .grid-3,
+            .error-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        .back-top {
+            position: fixed;
+            /* tetap di layar walau di-scroll */
+            bottom: 28px;
+            /* jarak dari bawah */
+            right: 28px;
+            /* jarak dari kanan */
+            width: 42px;
+            height: 42px;
+            background: #5b8fff;
+            /* warna biru */
+            color: #fff;
+            border-radius: 50%;
+            /* bikin bulat */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            text-decoration: none;
+            box-shadow: 0 4px 20px rgba(91, 143, 255, 0.4);
+            /* glow effect */
+            transition: transform 0.2s;
+        }
+        
+        .back-top:hover {
+            transform: translateY(-3px);
+            /* naik sedikit saat di-hover */
+        }
+        
+        .page-navigation {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin: 40px 0;
+        }
+        
+        .nav-btn {
+            background: #4f8ef7;
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 8px;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+        
+        .nav-btn:hover {
+            transform: translateY(-2px);
+            opacity: 0.9;
+        }
+        
+        footer {
+            text-align: center;
+            padding: 25px;
+            border-top: 1px solid var(--border);
+            color: var(--muted);
+            font-size: 14px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- ══════════════════════════════ HEADER ══════════════════════════════ -->
+    <header>
+        <div class="header-tag">Pemrograman Berorientasi Obyek · Week 5</div>
+        <h1>Rangkuman <span>Materi</span> PBO</h1>
+        <p class="subtitle">Looping (Perulangan) | Error dan Exception Handling</p>
+    </header>
+    <main>
+
+        <div class="section-label">
+            <span class="section-num">01</span>
+            <h2>Looping (Perulangan)</h2>
+            <div class="divider"></div>
+        </div>
+
+        <div class="card">
+            <h3>Apa itu Looping?</h3>
+
+            <p>
+                Looping atau perulangan adalah proses menjalankan suatu blok kode secara berulang-ulang sampai kondisi tertentu terpenuhi. Dengan adanya perulangan, programmer tidak perlu menuliskan kode yang sama berkali-kali sehingga program menjadi lebih singkat,
+                rapi, dan efisien.
+            </p>
+
+            <p>
+                Dalam kehidupan sehari-hari looping dapat diibaratkan seperti perintah "tendang bola ke gawang 100 kali" atau "tendang bola sampai gol". Keduanya sama-sama melakukan pengulangan tetapi memiliki kondisi berhenti yang berbeda.
+            </p>
+
+            <div class="tags">
+                <span class="tag blue">Looping</span>
+                <span class="tag green">Iterasi</span>
+                <span class="tag yellow">Pengulangan</span>
+            </div>
+        </div>
+
+        <div class="card accent2">
+            <h3>Jenis-Jenis Looping</h3>
+
+            <table class="compare">
+                <tr>
+                    <th>Counted Loop</th>
+                    <th>Uncounted Loop</th>
+                </tr>
+
+                <tr>
+                    <td>Jumlah pengulangan sudah diketahui sejak awal.</td>
+                    <td>Jumlah pengulangan belum diketahui secara pasti.</td>
+                </tr>
+
+                <tr>
+                    <td>Menggunakan FOR.</td>
+                    <td>Menggunakan WHILE dan DO-WHILE.</td>
+                </tr>
+
+                <tr>
+                    <td>Contoh: Cetak angka 1 sampai 100.</td>
+                    <td>Contoh: Menunggu user memasukkan data yang benar.</td>
+                </tr>
+            </table>
+        </div>
+
+        <div class="card accent1">
+            <h3>FOR Loop (Counted Loop)</h3>
+
+            <p>
+                FOR merupakan perulangan yang digunakan ketika jumlah iterasi sudah diketahui. FOR terdiri dari tiga bagian utama yaitu inisialisasi variabel, kondisi, dan increment/decrement.
+            </p>
+
+            <p>
+                Selama kondisi bernilai true maka blok kode akan terus dijalankan. Setelah satu iterasi selesai, nilai variabel akan diperbarui sesuai increment atau decrement yang diberikan.
+            </p>
+
+            <pre class="code-block">
+for(int i = 1; i <= 5; i++){
+    System.out.println(i);
+}
+</pre>
+
+            <div class="note">
+                <strong>Output :</strong><br> 1
+                <br> 2
+                <br> 3
+                <br> 4
+                <br> 5
+            </div>
+        </div>
+
+        <div class="card accent3">
+            <h3>WHILE Loop</h3>
+
+            <p>
+                WHILE digunakan ketika jumlah pengulangan belum diketahui secara pasti. Perulangan akan terus berjalan selama kondisi bernilai true.
+            </p>
+
+            <p>
+                Kondisi diperiksa terlebih dahulu sebelum blok program dijalankan. Jika kondisi false sejak awal maka isi perulangan tidak akan dieksekusi.
+            </p>
+
+            <pre class="code-block">
+int i = 1;
+
+while(i <= 5){
+    System.out.println(i);
+    i++;
+}
+</pre>
+
+            <div class="note">
+                Perulangan berhenti ketika nilai i sudah lebih besar dari 5.
+            </div>
+        </div>
+
+        <div class="card accent4">
+            <h3>DO WHILE Loop</h3>
+
+            <p>
+                DO-WHILE hampir sama dengan WHILE, tetapi pengecekan kondisi dilakukan setelah blok kode dijalankan.
+            </p>
+
+            <p>
+                Karena kondisi dicek di akhir, maka minimal satu kali perulangan pasti akan dieksekusi walaupun kondisi bernilai false.
+            </p>
+
+            <pre class="code-block">
+int i = 1;
+
+do{
+    System.out.println(i);
+    i++;
+}
+while(i <= 5);
+</pre>
+
+            <div class="note">
+                DO-WHILE selalu menjalankan blok program minimal satu kali.
+            </div>
+        </div>
+
+        <div class="card accent2">
+            <h3>BREAK Statement</h3>
+
+            <p>
+                BREAK digunakan untuk menghentikan perulangan secara paksa sebelum kondisi utama perulangan selesai.
+            </p>
+
+            <p>
+                Biasanya digunakan ketika data yang dicari sudah ditemukan sehingga tidak perlu melanjutkan proses iterasi.
+            </p>
+
+            <pre class="code-block">
+for(int i=1; i<=10; i++){
+
+    if(i==5){
+        break;
+    }
+
+    System.out.println(i);
+}
+</pre>
+
+            <div class="note">
+                Output hanya sampai angka 4 karena perulangan dihentikan saat i bernilai 5.
+            </div>
+        </div>
+
+        <div class="card accent3">
+            <h3>CONTINUE Statement</h3>
+
+            <p>
+                CONTINUE digunakan untuk melewati satu iterasi tertentu dan langsung melanjutkan ke iterasi berikutnya.
+            </p>
+
+            <p>
+                Berbeda dengan BREAK yang menghentikan seluruh perulangan, CONTINUE hanya melewati iterasi yang sedang berjalan.
+            </p>
+
+            <pre class="code-block">
+for(int i=1; i<=5; i++){
+
+    if(i==3){
+        continue;
+    }
+
+    System.out.println(i);
+}
+</pre>
+
+            <div class="note">
+                Angka 3 tidak dicetak karena dilewati oleh CONTINUE.
+            </div>
+        </div>
+
+        <div class="card accent4">
+            <h3>Nested Loop</h3>
+
+            <p>
+                Nested Loop adalah perulangan yang berada di dalam perulangan lainnya. Setiap kali perulangan luar berjalan satu kali maka perulangan dalam akan dijalankan hingga selesai.
+            </p>
+
+            <p>
+                Nested Loop sering digunakan untuk membuat pola bintang, tabel perkalian, serta pengolahan data dua dimensi.
+            </p>
+
+            <pre class="code-block">
+for(int i=1; i<=3; i++){
+
+    for(int j=1; j<=3; j++){
+        System.out.print("* ");
+    }
+
+    System.out.println();
+}
+</pre>
+
+            <div class="note">
+                Output:<br> * * *<br> * * *<br> * * *
+            </div>
+        </div>
+
+        <div class="section-label">
+            <span class="section-num">02</span>
+            <h2>Error dan Exception Handling</h2>
+            <div class="divider"></div>
+        </div>
+
+        <div class="card">
+            <h3>Pengertian Error</h3>
+
+            <p>
+                Error merupakan kondisi ketika program tidak dapat berjalan sebagaimana mestinya. Java menyediakan debugger yang dapat membantu programmer mengetahui lokasi, penyebab, dan jenis error yang terjadi.
+            </p>
+
+            <p>
+                Secara umum error dibagi menjadi Syntax Error dan Runtime Error.
+            </p>
+        </div>
+
+        <div class="card accent2">
+            <h3>Syntax Error dan Runtime Error</h3>
+
+            <div class="error-grid">
+
+                <div class="err-box syntax">
+                    <h4>Syntax Error</h4>
+                    <ul>
+                        <li>Kesalahan penulisan sintaks.</li>
+                        <li>Terdeteksi saat compile.</li>
+                        <li>File .class tidak terbentuk.</li>
+                        <li>Contoh: lupa titik koma (;).</li>
+                    </ul>
+                </div>
+
+                <div class="err-box runtime">
+                    <h4>Runtime Error</h4>
+                    <ul>
+                        <li>Terjadi saat program dijalankan.</li>
+                        <li>Compile berhasil.</li>
+                        <li>File .class tetap terbentuk.</li>
+                        <li>Contoh: pembagian dengan nol.</li>
+                    </ul>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="card accent3">
+            <h3>Exception Handling</h3>
+
+            <p>
+                Runtime Error dapat menyebabkan program berhenti secara tiba-tiba. Agar aplikasi tetap berjalan dengan baik, Java menyediakan mekanisme Exception Handling.
+            </p>
+
+            <p>
+                Exception Handling digunakan untuk menangani error yang terjadi saat runtime sehingga program tetap stabil dan tidak langsung berhenti.
+            </p>
+
+            <div class="pill-row">
+                <span class="pill tag blue">TRY</span>
+                <span class="pill tag orange">CATCH</span>
+                <span class="pill tag green">FINALLY</span>
+            </div>
+        </div>
+
+        <div class="card accent2">
+            <h3>TRY - CATCH</h3>
+
+            <p>
+                TRY digunakan untuk menempatkan kode yang berpotensi menghasilkan error. Jika error terjadi maka program akan masuk ke blok CATCH.
+            </p>
+
+            <pre class="code-block">
+try{
+
+    int hasil = 10 / 0;
+
+}
+catch(ArithmeticException e){
+
+    System.out.println("Terjadi Error");
+
+}
+</pre>
+
+            <div class="note">
+                Error berhasil ditangani sehingga program tidak langsung berhenti.
+            </div>
+        </div>
+
+        <div class="card">
+            <h3>Jenis Exception yang Sering Digunakan</h3>
+
+            <table class="compare">
+                <tr>
+                    <th>Exception</th>
+                    <th>Keterangan</th>
+                </tr>
+
+                <tr>
+                    <td>ArithmeticException</td>
+                    <td>Kesalahan operasi matematika.</td>
+                </tr>
+
+                <tr>
+                    <td>NullPointerException</td>
+                    <td>Objek bernilai null.</td>
+                </tr>
+
+                <tr>
+                    <td>NumberFormatException</td>
+                    <td>Kesalahan konversi String menjadi angka.</td>
+                </tr>
+
+                <tr>
+                    <td>ArrayIndexOutOfBoundsException</td>
+                    <td>Index array melebihi batas.</td>
+                </tr>
+            </table>
+        </div>
+
+        <div class="card accent4">
+            <h3>TRY - CATCH - FINALLY</h3>
+
+            <p>
+                FINALLY adalah blok yang selalu dijalankan baik terjadi exception maupun tidak.
+            </p>
+
+            <p>
+                Biasanya digunakan untuk menutup file, koneksi database, atau membersihkan resource yang digunakan program.
+            </p>
+
+            <pre class="code-block">
+try{
+
+    int hasil = 10 / 0;
+
+}
+catch(Exception e){
+
+    System.out.println("Terjadi Error");
+
+}
+finally{
+
+    System.out.println("Program Selesai");
+
+}
+</pre>
+
+            <div class="note">
+                Walaupun terjadi error, blok finally tetap dijalankan.
+            </div>
+        </div>
+
+    </main>
+    <div class="page-navigation">
+        <button id="backBtn" class="nav-btn">← Kembali</button>
+        <button id="nextBtn" class="nav-btn">Selanjutnya →</button>
+    </div>
+
+    <footer>
+        PBO — Week 5 | Looping & Exception Handling | Rangkuman Materi
+    </footer>
+    <a href="#" class="back-top" title="Kembali ke atas">↑</a>
+    <script>
+        // Intersection Observer for scroll animations
+        const sections = document.querySelectorAll('.section');
+        const obs = new IntersectionObserver((entries) => {
+            entries.forEach((e, i) => {
+                if (e.isIntersecting) {
+                    setTimeout(() => e.target.classList.add('visible'), i * 60);
+                }
+            });
+        }, {
+            threshold: 0.05
+        });
+
+        sections.forEach(s => obs.observe(s));
+
+        // Smooth scroll for TOC
+        document.querySelectorAll('.toc a').forEach(a => {
+            a.addEventListener('click', e => {
+                e.preventDefault();
+                const target = document.querySelector(a.getAttribute('href'));
+                if (target) target.scrollIntoView({
+                    behavior: 'smooth',
+                    block: 'start'
+                });
+            });
+        });
+
+        document.getElementById("backBtn").addEventListener("click", function() {
+            window.location.href = "halaman3.html";
+        });
+
+        document.getElementById("nextBtn").addEventListener("click", function() {
+            window.location.href = "halaman5.html";
+        });
+    </script>
+</body>
+
+</html>
